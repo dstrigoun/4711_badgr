@@ -3,9 +3,9 @@
     index reducer (simplify export/import)
 */
 
-import {combinReducers} from 'redux'; 
-import testReducer from './testReducer'; 
+import {combineReducers} from 'redux'; 
+import {testReducer} from './testReducer'; 
 
-export default combinReducers({
+export default combineReducers({
     testReducer
 });

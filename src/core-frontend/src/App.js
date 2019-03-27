@@ -2,7 +2,27 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+// Connect React Component to Redux Store
+import {connect} from 'react-redux';
+// Test Action (Redux testAction)
+import {testAction} from './actions/testAction';
+
+
+const mapStateToProps = state => ({
+  ...state
+});
+
+const mapDispatchToProps = dispatch => ({
+  testAction: () => dispatch(testAction())
+})
+
 class App extends Component {
+
+
+  
+
+
+  
   render() {
     return (
       <div className="App">
@@ -25,4 +45,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps) (App);
