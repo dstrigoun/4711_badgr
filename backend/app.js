@@ -10,6 +10,17 @@ CREATE TABLE Users (
     Picture varchar(255),
     PRIMARY KEY (Email)
 );
+
+CREATE TABLE Tags (
+  Tag varchar(255) NOT NULL,
+  PRIMARY KEY (Tag)
+)
+
+CREATE TABLE UserTags (
+  User varchar(255) NOT NULL REFERENCES Users(email),
+  Tag varchar(255) NOT NULL REFERENCES Tags(Tag),
+  PRIMARY KEY (User, Tag)
+)
 */
 
 
@@ -111,7 +122,98 @@ app.delete('/comp4711/badgr-app/users', jsonParser, function (req, res) {
   });
 });
 
+app.post('/comp4711/badgr-app/tags', jsonParser, function (req, res) {
 
+  // Bad request check
+  if (req.header('Content-Type') != 'application/json') {
+    res.status(400).send('Invalid header - Content-Type');
+  }
+  if ((!req.body.user) || (!req.body.tags)) {
+    res.status(400).send('Request missing required fields');
+  }
+
+  con.query("SELECT * FROM Users WHERE email = ?", req.body.user, (err, result) => {
+    if (err) res.status(500).send(err);
+    if (result.length == 0) {
+      res.status(500).send("No such user");
+    } else {
+      for (let i = 0; i < req.body.tags.length; ++i) {
+        let tag = req.body.tags[i];
+        con.query("INSERT IGNORE INTO Tags VALUES (?)", tag, (err, result) => {
+          let queryBody = {};
+          queryBody.user = req.body.user;
+          queryBody.tag = tag;
+          con.query("INSERT IGNORE INTO UserTags SET ?", queryBody, (err, result) => {
+            if (err) res.status(500).send(err);
+            if (i == (req.body.tags.length - 1)) {
+              res.status(200).send("Tagging successful");
+            }
+          });
+        });
+      }
+    }
+  });
+});
+
+app.delete('/comp4711/badgr-app/tags', jsonParser, function (req, res) {
+  // Bad request check
+  if (req.header('Content-Type') != 'application/json') {
+    res.status(400).send('Invalid header - Content-Type');
+  }
+  if ((!req.body.user) || (!req.body.tags)) {
+    res.status(400).send('Request missing required fields');
+  }
+
+  con.query("SELECT * FROM Users WHERE email = ?", req.body.user, (err, result) => {
+    if (err) res.status(500).send(err);
+    if (result.length == 0) {
+      res.status(500).send("No such user");
+    } else {
+      for (let i = 0; i < req.body.tags.length; ++i) {
+        let tag = req.body.tags[i];
+        con.query("DELETE FROM Tags WHERE Tag = ?", tag, (err, result) => {
+          if (err) res.status(500).send(err);
+          con.query("DELETE FROM UserTags WHERE `User` = ? AND `Tag` = ?", [req.body.user, tag], (err, result) => {
+            if (err) res.status(500).send(err);
+            if (i == (req.body.tags.length - 1)) {
+              res.status(200).send("Tags removed");
+            }
+          });
+        });
+      }
+    }
+  });
+});
+
+app.get('/comp4711/badgr-app/tags', jsonParser, function (req, res) {
+
+  // Bad request check
+  if (req.header('Content-Type') != 'application/json') {
+    res.status(400).send('Invalid header - Content-Type');
+  }
+  if (!req.body.user) {
+    res.status(400).send('Request missing required fields');
+  }
+
+  con.query("SELECT * FROM Users WHERE email = ?", req.body.user, (err, result) => {
+    if (err) res.status(500).send(err);
+    if (result.length == 0) {
+      res.status(500).send("No such user");
+    } else {
+      con.query("SELECT * FROM UserTags WHERE `user` = ?", [req.body.user], (err, result) => {
+        if (err) res.status(500).send(err);
+        let responseBody = {};
+        responseBody.tags = [];
+
+        for (let i = 0; i < result.length; ++i) {
+          responseBody.tags.push(result[i].Tag);
+        }
+        res.status(200).send(responseBody);
+        //console.log(result);
+      });
+    }
+  });
+});
 
 
 app.listen(8080, function() {
