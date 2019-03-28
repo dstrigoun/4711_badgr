@@ -215,6 +215,113 @@ app.get('/comp4711/badgr-app/tags', jsonParser, function (req, res) {
   });
 });
 
+/*
+Select b.badgeImage FROM 
+Badges b JOIN ExternalApp e
+ON b.appId = e.appId
+WHERE e.appName = 'req.body.appName'
+*/
+//api call that only the core app can call to get the badge image url
+//must pass an appId
+app.get('/comp4711/badgr-app/badges', jsonParser, function (req, res) {
+  // Bad request check
+  if (req.header('Content-Type') != 'application/json') {
+    res.status(400).send('Invalid header - Content-Type');
+  }
+  if (!req.body.appName) {
+    res.status(400).send('Request missing required fields');
+  }
+
+  con.query("Select b.badgeImage FROM Badges b JOIN ExternalApp e ON b.appId = e.appId WHERE e.appName = ?", req.body.appName, (err, result) => {
+    if (err) res.status(500).send(err);
+    if (result.length == 0) {
+      res.status(404).send("no registered external app found");
+    } else if (result.length > 1){
+      res.status(500).send("something has gone horribly wrong");
+    } else {
+      let responseBody = {};
+      responseBody.badgeImage = result;
+      res.status(200).send(responseBody);
+    }
+  })
+})
+
+//api call that the external app can call to add / update their badge image url
+//if there is no entry, it will create an entry in the table
+//otherwise updates the table
+//must pass an appId
+app.post('/comp4711/badgr-app/badges', jsonParser, function (req, res) {
+  // Bad request check
+  if (req.header('Content-Type') != 'application/json') {
+    res.status(400).send('Invalid header - Content-Type');
+  }
+  if (!req.body.appName || !req.body.badgeImage) {
+    res.status(400).send('Request missing required fields');
+  }
+
+
+  //check if there is already an entry
+  con.query("Select b.badgeImage, FROM Badges b JOIN ExternalApp e ON b.appId = e.appId WHERE e.appName = ?", req.body.appName, (err, result) => {
+    if (err) res.status(500).send(err);
+    if (result.length == 0) {
+      //insert new row
+      con.query("INSERT INTO Badges (appId, badgeImage) VALUES ( SELECT appId FROM ExternalApp WHERE appName = ?, ?)", [req.body.appName, req.body.badgeImage], (err, result) => {
+        if (err) res.status(500).send(err);
+        else res.status(200).send("successfully added new badgeImage");
+      })
+    } else if (result.length > 1){
+      res.status(500).send("something has gone horribly wrong");
+    } else {
+      //update entry
+      con.query("Update Badges set badgeImage = ? FROM ( Select appId from ExternalApp WHERE appName = ? ) t Where Badges.appId = t.appId", [req.body.badgeImage, req.body.appName], (err, result) => {
+        if (err) res.status(500).send(err);
+        else res.status(200).send("badge image updated successfully");
+      });
+    }
+  })
+
+
+})
+
+
+/*
+Select count(*) 
+FROM Authorization
+WHERE token = token
+*/
+//used to check if a given auth token has been registered
+//because javascript be like it is, you need to pass a callback 
+//should be used in api calls that require external app to be registered with core app
+//returns true if yes
+//otherwise return false
+function checkAuthorized(token, callback){
+  //check if token is correct format (int 32)
+  if (!Numnber.isInteger(token)){
+    return false;
+  }
+  if (token.toString().length != 32){
+    return false;
+  }
+
+  //query table for matching token
+  let p = new Promise( (resolve, reject) => {
+    con.query("Select count(*) FROM Authorization WHERE token = " + token, (err, result)=>{
+      if (err){
+        return reject(err);
+      }
+      if (result.length == 0){
+        return resolve(false);
+      }
+      if (result.length > 1){
+        console.log("multiple entries with same token");
+        return resolve(false);
+      }
+      return resolve(true);
+    });  
+  });
+
+  p.then(callback(value));
+}
 
 app.listen(8080, function() {
   console.log('listening...');
