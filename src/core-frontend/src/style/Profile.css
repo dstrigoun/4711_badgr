@@ -1,0 +1,64 @@
+body{
+	box-sizing: border-box;
+}
+.App{
+  display: flex;
+  color: black;
+}
+
+.App_LeftPanel{
+  width: 50%;
+  height: 90%;
+  padding: 2em;
+}
+
+.App_RightPanel{
+  width: 50%;
+  height: 90%;
+  padding: 1em;
+}
+
+.badge{
+	height:10%;
+	width:10%;
+}
+.badgeFull{
+	height:25%;
+	width:25%;
+}
+
+.Badges_Title{
+	display: flex;
+    justify-content: space-between;
+}
+
+#badgeBlock{
+	background-color: #BFEEFF;
+	height: 90%;
+	width: 90%;
+	border: 0.5em solid grey;
+	padding: 2em;
+}
+
+#badgeCollection{
+	display: flex;
+	flex-flow: row wrap;
+}
+
+#controls_Panel{
+	display:flex;
+	margin-left: 20%;
+}
+
+#left-controls{
+	display: flex;
+	flex-direction: column;
+}
+
+#left-controls >*{
+	margin: 0.25em;
+}
+#right-controls{
+	display: flex;	
+	margin: 0.25em;
+}
