@@ -40,7 +40,7 @@ class App extends React.Component {
 
     return (
         <div id="appMain">
-            <DisplayMenu isLoggedIn={this.state.loggedIn}/>
+            <DisplayMenu isLoggedIn={this.state.loggedIn} settingsDisplay={this.state.settingsDisplay}/>
 
             <BrowserRouter>
                 <div id="page-wrap">
@@ -61,7 +61,7 @@ function  DisplayMenu(props){
          return(<MenuComponent
                     pageWrapId={"page-wrap"}
                     outerContainerId={"appMain"}
-                    />);
+                    settingsDisplay={props.settingsDisplay}/>);
      } else {
          return(<div></div>);
      }
