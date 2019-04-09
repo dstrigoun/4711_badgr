@@ -1,24 +1,25 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const fs = require('fs');
 /*
 CREATE TABLE Users (
-    Email varchar(255) NOT NULL,
-    FirstName varchar(255),
-    LastName varchar(255),
-    Description varchar(2000),
-    Picture varchar(255),
-    PRIMARY KEY (Email)
+    email varchar(255) NOT NULL,
+    firstName varchar(255),
+    lastName varchar(255),
+    description varchar(2000),
+    picture varchar(255),
+    PRIMARY KEY (email)
 );
 
 CREATE TABLE Tags (
-  Tag varchar(255) NOT NULL,
+  tag varchar(255) NOT NULL,
   PRIMARY KEY (Tag)
 )
 
 CREATE TABLE UserTags (
-  User varchar(255) NOT NULL REFERENCES Users(email),
-  Tag varchar(255) NOT NULL REFERENCES Tags(Tag),
+  user varchar(255) NOT NULL REFERENCES Users(email),
+  tag varchar(255) NOT NULL REFERENCES Tags(Tag),
   PRIMARY KEY (User, Tag)
 )
 */
@@ -28,11 +29,18 @@ CREATE TABLE UserTags (
 const app = express();
 const jsonParser = bodyParser.json();
 
-let con = mysql.createConnection({
+/*let con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
   database: 'badgr'
+});*/
+
+let con = mysql.createConnection({
+  host: 'localhost',
+  user: 'jeffchoy_badgr',
+  password: 'b0w$hOck',
+  database: 'jeffchoy_badgr'
 });
 
 // get user
@@ -44,7 +52,7 @@ app.get('/comp4711/badgr-app/users', jsonParser, function (req, res) {
   if ((!req.header('Email'))) {
     res.status(400).send("No primary key identified in 'Email' header.");
   }
-  con.query("SELECT * FROM Users WHERE Email = ?", req.header('Email'), (err, result) => {
+  con.query("SELECT * FROM `Users` WHERE Email = ?", req.header('Email'), (err, result) => {
       if (result.length != 0) {
         res.status(200).send(result[0]);
       } else {
@@ -65,7 +73,8 @@ app.post('/comp4711/badgr-app/users', jsonParser, function (req, res) {
     res.status(400).send('Request missing required fields');
   }
 
-  con.query("SELECT * FROM Users WHERE Email = ?", req.body.email, (err, result) => {
+  con.query("SELECT * FROM Users WHERE email = ?", req.body.email, (err, result) => {
+	if (err) res.status(500).send(err);
     if (result.length != 0) {
       res.status(500).send('Email already associated with an account');
     } else {
