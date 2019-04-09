@@ -3,6 +3,7 @@ import GoogleLogin from 'react-google-login';
 
 // Styling
 import '../style/Profile.css';
+import '../style/App.css';
 
 
 class Profile extends React.Component {

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
 
 // Styling
-import '../style/Home.css';
+import '../style/App.css';
 
 
 

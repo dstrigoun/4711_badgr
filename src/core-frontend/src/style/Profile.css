@@ -3,13 +3,19 @@ body{
 }
 .App{
   display: flex;
-  color: black;
+  /* color: black; */
 }
 
 .App_LeftPanel{
-  width: 50%;
+
+  width: 20%;
   height: 90%;
   padding: 2em;
+}
+
+.App_MiddlePanel{
+
+  width: 30%;
 }
 
 .App_RightPanel{
@@ -59,6 +65,6 @@ body{
 	margin: 0.25em;
 }
 #right-controls{
-	display: flex;	
+	display: flex;
 	margin: 0.25em;
 }

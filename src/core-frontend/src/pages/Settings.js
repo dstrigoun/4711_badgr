@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
 
 // Styling
-import '../style/Profile.css';
+import '../style/App.css';
 
 class Settings extends React.Component {
 
@@ -18,7 +18,7 @@ class Settings extends React.Component {
     }
 
     return (
-        <div className="App">
+        <div class="App">
             <div className="NavBar">
                 <h1 id="title">Settings</h1>
                 <button>Back To Profile</button>
