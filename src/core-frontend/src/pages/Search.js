@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
-import logo from './logo.svg';
-import './App.css';
 
 // Connect React Component to Redux Store
 import {connect} from 'react-redux';
@@ -24,8 +22,8 @@ import PropTypes from 'prop-types';
 
 // Styling
 
-import './style/Search.css';
-import { makeStyles } from '@material-ui/styles'; 
+import '../style/Search.css';
+import { makeStyles } from '@material-ui/styles';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { styled } from '@material-ui/styles';
 import amber from '@material-ui/core/colors/amber';
@@ -74,7 +72,7 @@ const styles = theme => ({
     position: 'relative',
   },
   toolbarTitle: {
-    
+
   },
   appBarNavBtn: {
     float: "right",
@@ -106,10 +104,10 @@ const styles = theme => ({
 
 class Search extends React.Component {
 
-  
+
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
-  };  
+  };
 
   render() {
     const { classes } = this.props;
@@ -125,15 +123,15 @@ class Search extends React.Component {
             <Typography variant="h4" color="inherit" noWrap className={classes.toolbarTitle}>
               Badgr
             </Typography>
-            
-            <Button 
+
+            <Button
               className={classes.profileBtn}
               variant="outlined">Profile Page</Button>
           </Toolbar>
         </AppBar>
         <header className="App-header">
           <form className={classes.searchContainer} noValidate autoComplete="off">
-            <MuiThemeProvider theme={theme}>           
+            <MuiThemeProvider theme={theme}>
               <StyledTextField
                 id="standard-search"
                 label="Search for users"
@@ -153,7 +151,7 @@ class Search extends React.Component {
             />
 
           </form>
-          
+
         </header>
       </div>
     );

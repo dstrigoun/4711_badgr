@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import GoogleLogin from 'react-google-login';
+
+// Styling
 import '../style/Profile.css';
+
+
 class Profile extends React.Component {
 
-  
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
-  };  
+  };
 
   render() {
     const { classes } = this.props;
@@ -41,7 +44,7 @@ class Profile extends React.Component {
               </div>
               <hr/>
             </div>
-            
+
             <div id="controls_Panel">
                   <div id="left-controls">
                       <button>Settings</button>
@@ -64,7 +67,7 @@ class Profile extends React.Component {
           </div>
         </div>
       </div>
-      
+
     );
   }
 }
