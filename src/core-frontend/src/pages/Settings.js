@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-import GoogleLogin from 'react-google-login';
+import Form from 'react-bootstrap/Form';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 // Styling
 import '../style/App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '../style/Settings.css';
 
 class Settings extends React.Component {
 
@@ -13,50 +18,22 @@ class Settings extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const responseGoogle = (response) => {
-      console.log(response);
-    }
+
 
     return (
-        <div class="App">
-            <div className="NavBar">
-                <h1 id="title">Settings</h1>
-                <button>Back To Profile</button>
-            </div>
-            <hr/>
-            <div id="Settings">
-                <div id="badgeDefault">
-                    <h2>Default Badge Display</h2>
-                    <div>
-                        <input type="radio" name="badgeDefault" id="pastWeek" value="pastWeek"/>
-                        <label for="pastWeek">Past Week</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="badgeDefault" id="past2Weeks" value="past2Weeks"/>
-                        <label for="past2Weeks">Past 2 Weeks</label>
-                    </div>
-                    <div>
-                        <input type="radio" name="badgeDefault" id="topAward" value="topAward"/>
-                        <label for="topAward">Top Awards only</label>
-                    </div>
-                </div>
-                <div id="userName">
-                    <h2>Change User Name</h2>
-                    <input id="userInput" type="text" name="name" placeholder="Enter new username here"/>
-                </div>
+      <Container>
+        <Row>
+          <Col>
+          </Col>
 
-                <div id="profileTheme">
-                    <h2>Profile Theme Color</h2>
-                    <button>Red</button>
-                    <button>Blue</button>
-                    <button>Green</button>
-                    <button>White</button>
-                </div>
+          <Col xs={10}>
+            <h1>Register for Badgr </h1>
+          </Col>
 
-                <div id="MoreSettings">More Settings</div>
-
-            </div>
-        </div>
+          <Col>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
