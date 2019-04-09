@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const mysql = require('mysql');
 /*
 CREATE TABLE Users (
@@ -26,6 +27,7 @@ CREATE TABLE UserTags (
 
 
 const app = express();
+app.use(cors());
 const jsonParser = bodyParser.json();
 
 let con = mysql.createConnection({
@@ -323,6 +325,6 @@ function checkAuthorized(token, callback){
   p.then(callback(value));
 }
 
-app.listen(8080, function() {
+app.listen(3000, function() {
   console.log('listening...');
 })
