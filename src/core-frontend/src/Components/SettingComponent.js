@@ -41,6 +41,7 @@ library.add(
 const styles = {
   appBar: {
     position: 'relative',
+    backgroundColor: '#66DAC7',
   },
   flex: {
     flex: 1,

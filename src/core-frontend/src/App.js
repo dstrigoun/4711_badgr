@@ -15,12 +15,13 @@ import Settings from './pages/Settings';
 import MenuComponent from './Components/MenuComponent.js';
 import SettingComponent from './Components/SettingComponent';
 
+const path = "/core-frontend/";
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-           loggedIn: true,
+           loggedIn: false,
            settingsDisplay: false
         }
      }
@@ -30,7 +31,12 @@ class App extends React.Component {
     this.setState({ [name]: event.target.value });
   };
 
-
+  userLoggedIn(){
+      console.log("app sees user logged in!\n");
+      this.setState({
+         loggedIn: true,
+      });
+  }
 
   render() {
     const { classes } = this.props;
@@ -42,12 +48,13 @@ class App extends React.Component {
         <div id="appMain">
             <DisplayMenu isLoggedIn={this.state.loggedIn} settingsDisplay={this.state.settingsDisplay}/>
 
-            <BrowserRouter>
+            <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <div id="page-wrap">
-                    <Route path = "/" component = {Login} exact/>
-                    <Route path = "/Profile" component = {Profile} exact/>
-                    <Route path = "/Search" component = {Search} exact/>
-                    <Route path = "/Settings" component = {Settings} exact/>
+                    <Route path = {path + "index.html"}
+                        render = {(props) => <Login {... props} userLoggedIn = {this.userLoggedIn}/>} exact/>
+                    <Route path = {path + "Profile.html"} component = {Profile} exact/>
+                    <Route path = {path + "Search.html"} component = {Search} exact/>
+                    <Route path = {path + "/Settings"} component = {Settings} exact/>
                 </div>
             </BrowserRouter>
         </div>

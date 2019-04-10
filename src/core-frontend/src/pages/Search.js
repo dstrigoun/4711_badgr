@@ -5,6 +5,8 @@ import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 
+import "../style/Search.css";
+
 const styles = theme => ({
     container: {
       display: 'flex',
@@ -34,7 +36,7 @@ class Search extends React.Component {
            list: [],
         }
 
-        this.addSearchItem = this.addSearchItem.bind(this); 
+        this.addSearchItem = this.addSearchItem.bind(this);
         this.removeSearchItem = this.removeSearchItem.bind(this);
      }
 
@@ -45,22 +47,35 @@ class Search extends React.Component {
         });
       };
 
+     addSearchItem(){
+
+     }
+
+
+     removeSearchItem(){
+
+     }
+
 
     render(){
 
         const { classes } = this.props;
 
         return(
-            <div id="searchContainer">
-                <TextField
-                    id="outlined-search"
-                    label="Search for users"
-                    type="search"
-                    className={classes.textField}
-                    margin="normal"
-                    variant="outlined"
-                    />
+            <div class="outerSearchContainer">
+                <div class="searchContainer">
+                    <TextField
+                        id="outlined-search"
+                        label="Search for users"
+                        type="search"
+                        className={classes.textField}
+                        margin="normal"
+                        variant="outlined"
+                        primary="red"
+                        secondary="red"
+                        />
 
+                </div>
             </div>
         );
     }
@@ -70,4 +85,4 @@ Search.propTypes = {
     classes: PropTypes.object.isRequired,
   };
 
-export default withStyles(styles)(Search); 
+export default withStyles(styles)(Search);

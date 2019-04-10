@@ -1,6 +1,27 @@
 body{
 	box-sizing: border-box;
 }
+
+.outerSearchContainer{
+	width: 100vw;
+	height: 100vh;
+	color: #66DAC7;
+	background-color: #66DAC7;
+}
+
+#searchContainer{
+	background-color: red;
+	color: red;
+}
+
+#test {
+	color: black;
+	background-color: black;
+	width: 400px;
+	height: 500px;
+
+}
+
 .App{
   color: black;
   padding: 1em;

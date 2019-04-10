@@ -34,6 +34,7 @@ library.add(
     faCogs
 );
 
+const path = "/core-frontend/";
 
 class MenuComponent extends React.Component {
     constructor(props) {
@@ -76,15 +77,15 @@ class MenuComponent extends React.Component {
 
                  <h1 className="divider">_________________</h1>
 
-                 <a className="menu-item" href="/Profile">
+                 <a className="menu-item" href={path + "Profile.html"}>
                    <FontAwesomeIcon icon={faUserCircle} className="menuIcon"/><span>Profile</span>
                  </a>
 
-                 <a className="menu-item" href="/Search">
+                 <a className="menu-item" href={path + "Search.html"}>
                    <FontAwesomeIcon icon={faSearch} className="menuIcon"/><span>Search</span>
                  </a>
 
-                 <a className="menu-item" href="/Profile">
+                 <a className="menu-item" href="https://www.jennyly.info/COMP4711/labs/final_project/landingpage.html" target="_blank">
                    <FontAwesomeIcon icon={faGlobeAmericas} className="menuIcon"/><span>WhereIsYou</span>
                  </a>
 
