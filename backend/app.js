@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const mysql = require('mysql');
 /*
 CREATE TABLE Users (
@@ -28,24 +29,36 @@ CREATE TABLE UserTags (
 const app = express();
 const jsonParser = bodyParser.json();
 
-let con = mysql.createConnection({
+app.use(cors());
+/*let con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
   database: 'badgr'
+});*/
+
+let con = mysql.createConnection({
+  host: 'localhost',
+  user: 'jeffchoy_badgr',
+  password: 'b0w$hOck',
+  database: 'jeffchoy_badgr'
 });
 
 // get user
 app.get('/comp4711/badgr-app/users', jsonParser, function (req, res) {
   // Bad request check
-  if (req.header('Content-Type') != 'application/json') {
-    res.status(400).send('Invalid header - Content-Type');
-  }
+  // if (req.header('Content-Type') != 'application/json') {
+  //   res.status(400).send('Invalid header - Content-Type');
+  // }
   if ((!req.header('Email'))) {
     res.status(400).send("No primary key identified in 'Email' header.");
   }
   con.query("SELECT * FROM Users WHERE Email = ?", req.header('Email'), (err, result) => {
       if (result.length != 0) {
+        responseBody = result[0];
+        if (responseBody.picture === '' || responseBody.picture === null) {
+          responseBody.picture = 'https://firebasestorage.googleapis.com/v0/b/testerino-ccc07.appspot.com/o/images%2Fprofile-placeholder-300x300.png?alt=media&token=98fdc700-6148-4514-aa0a-f388812d9d65';
+        }
         res.status(200).send(result[0]);
       } else {
         res.status(404).send('No entries returned');
@@ -216,7 +229,7 @@ app.get('/comp4711/badgr-app/tags', jsonParser, function (req, res) {
 });
 
 /*
-Select b.badgeImage FROM 
+Select b.badgeImage FROM
 Badges b JOIN ExternalApp e
 ON b.appId = e.appId
 WHERE e.appName = 'req.body.appName'
@@ -285,12 +298,12 @@ app.post('/comp4711/badgr-app/badges', jsonParser, function (req, res) {
 
 
 /*
-Select count(*) 
+Select count(*)
 FROM Authorization
 WHERE token = token
 */
 //used to check if a given auth token has been registered
-//because javascript be like it is, you need to pass a callback 
+//because javascript be like it is, you need to pass a callback
 //should be used in api calls that require external app to be registered with core app
 //returns true if yes
 //otherwise return false
@@ -317,7 +330,7 @@ function checkAuthorized(token, callback){
         return resolve(false);
       }
       return resolve(true);
-    });  
+    });
   });
 
   p.then(callback(value));
