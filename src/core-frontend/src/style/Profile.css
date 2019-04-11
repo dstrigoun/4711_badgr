@@ -1,78 +1,69 @@
-body {
+body{
 	box-sizing: border-box;
 }
 
-.profileOuterContainer {
+.profileOuterContainer{
 	position: absolute;
 	left: 20%;
 	top: 10%;
 	width: 65vw;
-	height: 85vh;
+	height: 80vh;
 	color: white;
 	background-color: white;
 	border-radius: 25px;
-	background-color: white;
-	background: rgba(255, 255, 255, 0.5);
-	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+	background-color: #373a47;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
 }
 
-.profileContainer {
-	width: 45%;
+.profileContainer{
+	width: 50%;
 	height: 85%;
-	float: left;
+	display: inline-block;
 }
 
-.badgesOuterContainer {
-	position: absolute;
-	right: 20%;
-	top: 10%;
-	width: 40vw;
-	height: 80vh;
-	background-color: white;
+.badgesOuterContainer{
+
 }
 
-.badgesContainer {
-	width: 40%;
-	height: 80%;
-	float: right;
-	margin-right: 5%;
-	margin-top: 4%;
-	background-color: white;
-	padding: 15px;
-	margin-left: -10px;
+.badgesContainer{
+	width: 30%;
+	height: 85%;
+	display:inline-block;
 }
 
-.dividerStyle {
+.dividerStyle{
 	margin-top: 10px;
+
 }
 
-#badgeBlock {
-	background-color: #bfeeff;
+
+#badgeBlock{
+	background-color: #BFEEFF;
 	height: 90%;
 	width: 90%;
 	border: 0.5em solid grey;
 	padding: 2em;
 }
 
-#badgeCollection {
+#badgeCollection{
 	display: flex;
 	flex-flow: row wrap;
 }
 
-#controls_Panel {
-	display: flex;
+#controls_Panel{
+	display:flex;
 	margin-left: 20%;
 }
 
-#left-controls {
+#left-controls{
 	display: flex;
 	flex-direction: column;
 }
 
-#left-controls > * {
+#left-controls >*{
 	margin: 0.25em;
 }
-#right-controls {
+#right-controls{
 	display: flex;
 	margin: 0.25em;
 }
