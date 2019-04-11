@@ -303,7 +303,7 @@ WHERE firstName = ''
 OR lastName = ''
 OR description LIKE '% %' 
 */
-//pass a single search term
+//parameters: search string, min score, date, external app
 app.get('/comp4711/badgr-app/searchusers', jsonParser, function(req, res){
   // Bad request check
   console.log("fmksld");
@@ -338,7 +338,7 @@ app.get('/comp4711/badgr-app/searchusers', jsonParser, function(req, res){
               url: 'https://whereisyou.herokuapp.com/scores.php',
               headers: {
                     'key': tokenResult[0].token,
-                    'date': '2019-04-10',
+                    'date': req.header('date'),
                     'leaderboard': true
                   }
             })
