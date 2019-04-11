@@ -243,6 +243,14 @@ class Profile extends React.Component {
                 });
                 document.getElementById("profileDescId").innerHTML = this.state.profileDesc;
             });
+
+            // axios({
+            //     method: "get",
+            //     url: "https://whereisyou.herokuapp.com/badges.php",
+            //     headers: {
+            //
+            //     }
+            // })
         }
 
         const { classes } = this.props;

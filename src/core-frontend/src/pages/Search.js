@@ -74,6 +74,7 @@ class Search extends React.Component {
         this.redirectToProfile = this.redirectToProfile.bind(this);
         this.redirectToSearch = this.redirectToSearch.bind(this);
         this.redirectToSettings = this.redirectToSettings.bind(this);
+        this.redirectToSpecificFunc = this.redirectToSpecificFunc.bind(this);
      }
 
 
@@ -104,48 +105,48 @@ class Search extends React.Component {
 
 
 
-                axios({
-                    method: "get",
-                    url: "https://jeffchoy.ca/comp4711/badgr-app/searchusers",
-                    headers: {
-                        'Content-Type' : 'application/json',
-                        "query" : objSearch.value,
-                        "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
-                        "externalapp" : "whereisyou",
-                        "score" : 0,
-                        "curDate" : "2019-04-11",
-                    },
-                }).then((res) => {
-                    console.log(res);
-                    res.searchResult.map((result) => {
-                        axios({
-                            method: "get",
-                            url: "https://jeffchoy.ca/comp4711/badgr-app/users",
-                            headers: {
-                                "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
-                                "email" : result,
-                            }
-                        }).then((res) => {
-                            console.log(res);
-
-                            // Push to result, then queueResults
-
-                            if (res.lastName){
-                                fullName = res.firstName + " " + res.lastName;
-                            } else {
-                                fullName = res.firstName;
-                            }
-
-                            result = [res.picture, fullName, res.email];
-                            queueResults.push([result]);
-
-                        });
-                    });
-
-                    this.setState({
-                        list: queueResults,
-                    });
-            });
+            //     axios({
+            //         method: "get",
+            //         url: "https://jeffchoy.ca/comp4711/badgr-app/searchusers",
+            //         headers: {
+            //             'Content-Type' : 'application/json',
+            //             "query" : objSearch.value,
+            //             "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
+            //             "externalapp" : "whereisyou",
+            //             "score" : 0,
+            //             "curDate" : "2019-04-11",
+            //         },
+            //     }).then((res) => {
+            //         console.log(res);
+            //         res.searchResult.map((result) => {
+            //             axios({
+            //                 method: "get",
+            //                 url: "https://jeffchoy.ca/comp4711/badgr-app/users",
+            //                 headers: {
+            //                     "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
+            //                     "email" : result,
+            //                 }
+            //             }).then((res) => {
+            //                 console.log(res);
+            //
+            //                 // Push to result, then queueResults
+            //
+            //                 if (res.lastName){
+            //                     fullName = res.firstName + " " + res.lastName;
+            //                 } else {
+            //                     fullName = res.firstName;
+            //                 }
+            //
+            //                 result = [res.picture, fullName, res.email];
+            //                 queueResults.push([result]);
+            //
+            //             });
+            //         });
+            //
+            //         this.setState({
+            //             list: queueResults,
+            //         });
+            // });
         });     // document get element by id function
 
 
@@ -184,7 +185,7 @@ class Search extends React.Component {
          console.log("Set redirect from Profile to Settings!\n");
      }
 
-     redirectToSpecific(email){
+     redirectToSpecificFunc(email){
          this.setState({
              redirectToSpecific: true,
              specificEmail: email,
@@ -252,7 +253,7 @@ class Search extends React.Component {
                             <div className = "listContainer">
                                 <ListSearchResult
                                     listResults = {this.state.list}
-                                    redirectToSpecific = {this.redirectToSpecific}/>
+                                    redirectToSpecificFunc = {this.redirectToSpecific}/>
                             </div>
 
                         </div>
