@@ -101,11 +101,7 @@ class Login extends React.Component {
 							<GoogleLogin
 								clientId="994995244089-nd58pj7ep27sfkinl3rejpbnpd6l92rq.apps.googleusercontent.com"
 								buttonText="Login"
-								render={renderProps => (
-									<Button variant="outlined" color="primary" onClick={renderProps.onClick}>
-							          Enter Badgr Here
-							        </Button>
-							    )}
+								
 								onSuccess={this.testSuccess}
 								onFailure={this.testFail}
 							/>

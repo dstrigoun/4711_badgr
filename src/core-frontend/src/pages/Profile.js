@@ -117,6 +117,8 @@ var profileData;
 
 var emailProfile;
 
+var listRecordsTotal;
+
 const profilePath = "/core-frontend/Profile.html";
 const searchPath = "/core-frontend/Search.html";
 const settingsPath = "/core-frontend/Settings.html";
@@ -128,7 +130,7 @@ class Profile extends React.Component {
         this.state = {
            loggedIn: true,
            settingsDisplay: false,
-           list: ["badge1", "badge2", "badge3"],
+           list: [],
            lastNameNull: true,
            fullNameState: "",
            profileDesc: "",
@@ -165,6 +167,7 @@ class Profile extends React.Component {
           } else {
               console.log("CANT FIND EMAIL!\n");
           }
+          listRecordsTotal = [];
 
       }
 
@@ -246,13 +249,22 @@ class Profile extends React.Component {
                 document.getElementById("profileDescId").innerHTML = this.state.profileDesc;
             });
 
-            // axios({
-            //     method: "get",
-            //     url: "https://whereisyou.herokuapp.com/badges.php",
-            //     headers: {
-            //
-            //     }
-            // })
+            axios({
+                method: "get",
+                url: "https://whereisyou.herokuapp.com/badges.php",
+                headers: {
+                    "Content-Type" : "application/json",
+                    "userId" : emailProfile,
+                    "key" : "bbc8e0e1-2dd4-4bc6-9f7d-1a0b3c5a3668"
+                }
+            }).then((res) => {
+                res.records.map((record) => {
+                    listRecordsTotal.push(record);
+                });
+                this.setState({
+                    list: listRecordsTotal,
+                })
+            });
         }
 
         const { classes } = this.props;
@@ -314,7 +326,7 @@ class Profile extends React.Component {
                                               <Avatar>
                                                 <ImageIcon />
                                               </Avatar>
-                                              <ListItemText primary={badge} />
+                                              <ListItemText primary={badge[0]} secondary ={badge[1]} />
                                             </ListItem>
                                         ))}
                                   </List>
