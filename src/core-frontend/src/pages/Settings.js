@@ -237,13 +237,10 @@ class Settings extends React.Component {
                 redirectToSearch={this.redirectToSearch}
                 redirectToSettings={this.redirectToSettings}/>
             <div id="page-wrap">
-              <div className="App">
-                <div className="grid-container">
-                  <div className="row">
+                <div className="settingOuterContainer">
+                <div className="settingContainer">
 
 
-
-                    <div id="Settings" className="col-4 card">
                       <div id="title" className="" >
                         <a className="settingsSub" href="/Profile">
                           <FontAwesomeIcon icon={faArrowLeft} id="back" size="2x"/><span></span>
@@ -297,8 +294,8 @@ class Settings extends React.Component {
                       </div>
                       <div className="buttonLabel" onClick={this.handleSubmit}>Submit</div>
                     </div>
-                  </div>
-                </div>
+
+
               </div>
           </div>
       </div>

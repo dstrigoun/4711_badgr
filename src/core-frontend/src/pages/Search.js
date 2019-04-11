@@ -44,15 +44,12 @@ const styles = theme => ({
   });
 
 
-  // Axios headers
-  const axiosConfig = {
-      headers: {
-          'Content-Type' : 'application/json',
-          'Email' : 'ms.jenny.ly@gmail.com'
-      }
-  };
 
   var emailSearch;
+
+  var result;
+  var queueResults;
+  var fullName = "";
 
   const profilePath = "/core-frontend/Profile.html";
   const searchPath = "/core-frontend/Search.html";
@@ -66,6 +63,8 @@ class Search extends React.Component {
            loggedIn: true,
            settingsDisplay: false,
            list: [],
+           redirectToSpecific: false,
+           specificEmail: "",
            redirectToNew: false,
            destUrl: ""
         }
@@ -87,22 +86,69 @@ class Search extends React.Component {
 
       componentWillMount(){
           emailSearch = this.props.location.state.email;
+          result = [];
+          queueResults = [];
       }
       // ms.jenny.ly@gmail.com
       // Load event listener on search input on page load
       componentDidMount(){
           console.log("component will mount!\n");
+          // reset queueResults
+          queueResults = [];
+
           // Add event listeners (search bar)
-          // document.getElementById("searchInput").addEventListener("input", function(e){
-          //   console.log(this.value);
-          //   axios.get("https://jeffchoy.ca/comp4711/badgr-app/users", axiosConfig)
-          //       .then(function(response){
-          //           console.log("Success! : " + response.data["firstName"] + " \n");
-          //       })
-          //       .catch(function(error){
-          //           console.log("axios error!\n");
-          //       })
-          // });
+          document.getElementById("searchInput").addEventListener("input", function(e){
+
+              let objSearch = document.getElementById("searchInput");
+              console.log(objSearch.value);
+
+
+
+                axios({
+                    method: "get",
+                    url: "https://jeffchoy.ca/comp4711/badgr-app/searchusers",
+                    headers: {
+                        'Content-Type' : 'application/json',
+                        "query" : objSearch.value,
+                        "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
+                        "externalapp" : "whereisyou",
+                        "score" : 0,
+                        "curDate" : "2019-04-11",
+                    },
+                }).then((res) => {
+                    console.log(res);
+                    res.searchResult.map((result) => {
+                        axios({
+                            method: "get",
+                            url: "https://jeffchoy.ca/comp4711/badgr-app/users",
+                            headers: {
+                                "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
+                                "email" : result,
+                            }
+                        }).then((res) => {
+                            console.log(res);
+
+                            // Push to result, then queueResults
+
+                            if (res.lastName){
+                                fullName = res.firstName + " " + res.lastName;
+                            } else {
+                                fullName = res.firstName;
+                            }
+
+                            result = [res.picture, fullName, res.email];
+                            queueResults.push([result]);
+
+                        });
+                    });
+                    
+                    this.setState({
+                        list: queueResults,
+                    });
+            });
+        });     // document get element by id function
+
+
       }
 
      addSearchItem(){
@@ -138,6 +184,14 @@ class Search extends React.Component {
          console.log("Set redirect from Profile to Settings!\n");
      }
 
+     redirectToSpecific(email){
+         this.setState({
+             redirectToSpecific: true,
+             specificEmail: email,
+         });
+         console.log("Set redirect from Profile to Profile!\n");
+     }
+
 
     render(){
 
@@ -156,6 +210,21 @@ class Search extends React.Component {
                     }
                 }}/>
             );
+        }
+
+        if(this.state.redirectToSpecific){
+            console.log("redirecting to specific!\n");
+            this.setState({
+                redirectToSpecific: false,
+            });
+            return(
+                <Redirect to={{
+                    pathname: this.state.destUrl,
+                    state: {
+                        email: emailSearch,
+                    }
+                }}/>
+            )
         }
 
         return(
@@ -182,7 +251,8 @@ class Search extends React.Component {
 
                             <div className = "listContainer">
                                 <ListSearchResult
-                                    />
+                                    listResults = {this.state.list}
+                                    redirectToSpecific = {this.redirectToSpecific}/>
                             </div>
 
                         </div>

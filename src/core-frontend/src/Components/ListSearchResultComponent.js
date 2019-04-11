@@ -84,8 +84,15 @@ class ListSearchResult extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchResults: ["Tom", "Jerry", "Matt", "Tyler", "Naruto", "Kira", "Aman"]   //names
+            searchResults: []   //names
         }
+     }
+
+     componentWillMount(){
+         console.log(this.props.listResults);
+         this.setState({
+             searchResults: this.props.listResults,
+         })
      }
 
 
@@ -97,31 +104,27 @@ class ListSearchResult extends React.Component {
         return (
             <div className = "ListOuterContainer">
               <List className = {classes.root}>
-                {resultsList.map((name) => (
+                {resultsList.map((result) => (
                     <ListItem className={classes.listItem}alignItems = "flex-start" button>
 
                         <ExpansionPanel  >
                           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 
                               <ListItemAvatar>
-                                <Avatar alt="Doofus Goofus" src={testProfilePic}/>
+                                <Avatar alt="Doofus Goofus" src={result[0]}/>
                               </ListItemAvatar>
                               <ListItemText
                                 primary= {
                                   <Typography variant="overline" component="span" color="textPrimary" className={classes.inline}>
-                                      {name}
+                                      {result[1]}
                                   </Typography>
                                 }/>
                           </ExpansionPanelSummary>
-                          <ExpansionPanelDetails>
-                            <Typography>
-                              Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget
-                              maximus est, id dignissim quam.
-                            </Typography>
-                          </ExpansionPanelDetails>
+
                           <Divider/>
                           <ExpansionPanelActions>
-                              <Button variant="outlined" color="primary" className={classes.button}>
+                              <Button variant="outlined" color="primary" className={classes.button}
+                                onClick={() => this.props.redirectToSpecific(result[2])}>
                                 Visit Profile
                               </Button>
                           </ExpansionPanelActions>

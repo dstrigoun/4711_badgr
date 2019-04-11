@@ -295,9 +295,6 @@ class Profile extends React.Component {
 
                                         </CardContent>
                                       </CardActionArea>
-                                      <CardActions>
-
-                                      </CardActions>
                                     </Card>
                                 </div>
                                 <div className="badgesContainer">
