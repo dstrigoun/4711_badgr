@@ -30,12 +30,13 @@ import ListSearchResult from '../Components/ListSearchResultComponent.js';
 
 // Badges Tile List
 
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import IconButton from '@material-ui/core/IconButton';
-import InfoIcon from '@material-ui/icons/Info';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Avatar from '@material-ui/core/Avatar';
+import ImageIcon from '@material-ui/icons/Image';
+import WorkIcon from '@material-ui/icons/Work';
+import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 
 const styles = theme => ({
     card: {
@@ -175,14 +176,7 @@ class Profile extends React.Component {
                             </Card>
                         </div>
                         <div className="badgesContainer">
-                            <div className={classes.root}>
-                              <GridList cellHeight={180} className={classes.gridList}>
-                                <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
-                                  <ListSubheader component="div">December</ListSubheader>
-                                </GridListTile>
 
-                              </GridList>
-                            </div>
                         </div>
                     </div>
                 </MuiThemeProvider>

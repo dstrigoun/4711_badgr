@@ -21,6 +21,15 @@ const success = response => {
 var profileData = 'ORIGINAL VALUE';
 
 class Login extends React.Component {
+	constructor(props){
+		super(props);
+
+		this.state = {
+			goToProfile: false,
+		};
+
+		this.testSuccess = this.testSuccess.bind(this);
+	}
 	handleChange = name => event => {
 		this.setState({ [name]: event.target.value });
 	};
@@ -30,19 +39,23 @@ class Login extends React.Component {
 
 		let responseObj = response.profileObj;
 		let nothing = '';
-		axios({
-			method: 'get',
-			url: 'https://jeffchoy.ca/comp4711/badgr-app/users',
-			header: {
-				'Content-Type': 'application/json'
-			},
-			data: {
-				email: responseObj.email,
-				firstName: responseObj.givenName,
-				lastName: responseObj.familyName,
-				description: nothing
-			}
-		}).then(res => {});
+		// axios({
+		// 	method: 'get',
+		// 	url: 'https://jeffchoy.ca/comp4711/badgr-app/users',
+		// 	header: {
+		// 		'Content-Type': 'application/json'
+		// 	},
+		// 	data: {
+		// 		email: responseObj.email,
+		// 		firstName: responseObj.givenName,
+		// 		lastName: responseObj.familyName,
+		// 		description: nothing
+		// 	}
+		// }).then(res => {});
+
+		this.setState({
+			goToProfile: true,
+		})
 	}
 
 	testFail() {
@@ -54,6 +67,8 @@ class Login extends React.Component {
 		const responseGoogle = response => {
 			console.log(response);
 		};
+
+
 
 		return (
 			<div>
