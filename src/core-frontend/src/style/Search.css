@@ -35,31 +35,3 @@ body{
 	height: 500px;
 
 }
-
-.App{
-  color: black;
-  padding: 1em;
-}
-.NavBar{
-	display:flex;
-	width: 100%;
-	justify-content: space-between;
-	height:10%;
-}
-
-#Settings{
-	display:flex;
-	flex-flow: row wrap;
-}
-#badgeDefault{
-	display:flex;
-	width: 50%;
-	flex-direction:column;
-}
-#profileTheme{
-	width: 50%;
-}
-
-#userInput{
-	width: 100%;
-}

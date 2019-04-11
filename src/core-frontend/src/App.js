@@ -76,7 +76,7 @@ class App extends React.Component {
 							exact
 						/>
 						<Route
-							path={path + '/Settings'}
+							path={path + 'Settings.html'}
 							component={Settings}
 							exact
 						/>

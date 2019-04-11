@@ -67,6 +67,12 @@ const styles = theme => ({
         overflow: 'hidden',
         backgroundColor: theme.palette.background.paper,
     },
+    listRoot:{
+        width: '100%',
+        maxWidth: 500,
+        marginTop: "10%",
+        backgroundColor: theme.palette.background.paper,
+    },
     gridList: {
         width: 500,
         height: 450,
@@ -74,6 +80,9 @@ const styles = theme => ({
     icon: {
         color: 'rgba(255, 255, 255, 0.54)',
     },
+    content: {
+        marginTop: "5%",
+    }
 
 });
 
@@ -101,7 +110,7 @@ class Profile extends React.Component {
         this.state = {
            loggedIn: true,
            settingsDisplay: false,
-           list: [],
+           list: ["badge1", "badge2", "badge3"],
         }
 
         this.addSearchItem = this.addSearchItem.bind(this);
@@ -159,8 +168,9 @@ class Profile extends React.Component {
                                   image={testProfilePic}
                                   title="Contemplative Reptile"
                                 />
-                                <CardContent>
-                                    <Typography variant="h1" gutterbottom>
+                                <CardContent
+                                    className={classes.content}>
+                                    <Typography variant="h3" gutterbottom>
                                         Segal Au
                                     </Typography>
                                     <Divider className={classes.dividerStyle}/>
@@ -176,7 +186,16 @@ class Profile extends React.Component {
                             </Card>
                         </div>
                         <div className="badgesContainer">
-
+                            <List className={classes.listRoot}>
+                                {this.state.list.map((badge) => (
+                                    <ListItem button>
+                                      <Avatar>
+                                        <ImageIcon />
+                                      </Avatar>
+                                      <ListItemText primary={badge} />
+                                    </ListItem>
+                                ))}
+                          </List>
                         </div>
                     </div>
                 </MuiThemeProvider>

@@ -100,7 +100,7 @@ class MenuComponent extends React.Component {
                    <FontAwesomeIcon icon={faGlobeAmericas} className="menuIcon"/><span>WhereIsYou</span>
                  </a>
 
-                 <a className="menu-item" onClick={this.test}>
+                 <a className="menu-item" href={path + "Settings.html"}>
                    <FontAwesomeIcon icon={faCogs} className="menuIcon"/><span>Settings</span>
                  </a>
 

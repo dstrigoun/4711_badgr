@@ -9,61 +9,25 @@ body{
 	width: 65vw;
 	height: 80vh;
 	color: white;
-	background-color: white;
+	background:rgba(255,255,255, 0.5);
 	border-radius: 25px;
-	background-color: #373a47;
 	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
 }
 
 .profileContainer{
 	width: 50%;
 	height: 85%;
-	display: inline-block;
-}
-
-.badgesOuterContainer{
-
+	float:left;
 }
 
 .badgesContainer{
-	width: 30%;
+	width: 50%;
 	height: 85%;
-	display:inline-block;
+
+	float:right;
 }
 
 .dividerStyle{
 	margin-top: 10px;
 
-}
-
-
-#badgeBlock{
-	background-color: #BFEEFF;
-	height: 90%;
-	width: 90%;
-	border: 0.5em solid grey;
-	padding: 2em;
-}
-
-#badgeCollection{
-	display: flex;
-	flex-flow: row wrap;
-}
-
-#controls_Panel{
-	display:flex;
-	margin-left: 20%;
-}
-
-#left-controls{
-	display: flex;
-	flex-direction: column;
-}
-
-#left-controls >*{
-	margin: 0.25em;
-}
-#right-controls{
-	display: flex;
-	margin: 0.25em;
 }
