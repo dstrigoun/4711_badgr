@@ -232,7 +232,7 @@ app.get('/comp4711/badgr-app/badges', jsonParser, function (req, res) {
     res.status(400).send('Request missing required fields');
   }
 
-  con.query("Select b.badgeImage FROM Badges b JOIN ExternalApp e ON b.appId = e.appId WHERE e.appName = ?", req.body.appName, (err, result) => {
+  con.query("Select b.badgeImage FROM Badge b JOIN ExternalApp e ON b.appId = e.appId WHERE e.appName = ?", req.body.appName, (err, result) => {
     if (err) res.status(500).send(err);
     if (result.length == 0) {
       res.status(404).send("no registered external app found");
@@ -279,10 +279,36 @@ app.post('/comp4711/badgr-app/badges', jsonParser, function (req, res) {
       });
     }
   })
-
-
 })
 
+
+/*
+Select * 
+FROM Users
+WHERE firstName = '' 
+OR lastName = ''
+OR description LIKE '% %' 
+*/
+//pass a single search term
+app.get('/comp4711/badgr-app/searchusers', jsonParser, function(req, res){
+  // Bad request check
+  if (req.header('Content-Type') != 'application/json') {
+    res.status(400).send('Invalid header - Content-Type');
+  }
+  if (!req.body.query) {
+    res.status(400).send('Request missing required fields');
+  }
+  con.query("Select * from users where lastname = ? OR firstname = ? OR description LIKE '%" + req.body.query + "%'", [req.body.query, req.body.query], function(err, result){
+    if (err) res.status(500).send(err);
+    if (result.length == 0) {
+      res.status(404).send("no matching users found");
+    } else {
+      let responseBody = {};
+      responseBody.searchResult = result;
+      res.status(200).send(responseBody);
+    }
+  })
+})
 
 /*
 Select count(*) 
