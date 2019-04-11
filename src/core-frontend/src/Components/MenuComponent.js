@@ -19,8 +19,13 @@ import { faCogs } from '@fortawesome/free-solid-svg-icons';
 // SETTING
 import SettingComponent from './SettingComponent';
 
+// REDIRECT
+import { Redirect } from 'react-router-dom';
+
 // Google Log out
 import { GoogleLogout } from 'react-google-login';
+
+import axios from 'axios';
 
 
 // STYLES
@@ -38,15 +43,45 @@ library.add(
 
 const path = "/core-frontend/";
 
+var emailMenu;
+
 class MenuComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
            // loggedIn: true,
-           settingsDisplay: false
+           settingsDisplay: false,
+           destUrl: "",
+           redirected: false,
         }
         this.test = this.test.bind(this);
         this.closeSettings = this.closeSettings.bind(this);
+        this.redirectTo = this.redirectTo.bind(this);
+     }
+
+     componentWillMount(){
+         console.log("Props: " + this.props);
+         console.log("Email: " + this.props.email);
+
+         emailMenu = this.props.email;
+
+         // axios({
+         //     method: "get",
+         //     url: "https://jeffchoy.ca/comp4711/badgr-app/users",
+         //     headers: {
+         //         "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
+         //         "email" : emailMenu,
+         //     }
+         // }).then((res) => {
+         //     console.log(res);
+         // });
+     }
+
+     redirectTo(url){
+         this.setState({
+             destUrl: url,
+             redirected: true,
+         })
      }
 
 
@@ -76,8 +111,21 @@ class MenuComponent extends React.Component {
      // </GoogleLogout> -->
 
      render(){
+
+         if(this.state.redirected){
+             // return(
+             //     <Redirect to={{
+             //         pathname: this.state.destUrl,
+             //         state: {
+             //             email : emailMenu
+             //         }
+             //     }}/>
+             // );
+         }
+
+         //onClick={this.redirectTo({path} + "Search.html")
          return (
-           // Pass on our props
+
            <div>
                <Menu pageWrapId= {this.props.pageWrapId}
                     outerContainerId= {this.props.outerContainerId}>
@@ -88,11 +136,11 @@ class MenuComponent extends React.Component {
 
                  <h1 className="divider">_________________</h1>
 
-                 <a className="menu-item" href={path + "Profile.html"}>
+                 <a className="menu-item" >
                    <FontAwesomeIcon icon={faUserCircle} className="menuIcon"/><span>Profile</span>
                  </a>
 
-                 <a className="menu-item" href={path + "Search.html"}>
+                 <a className="menu-item" }>
                    <FontAwesomeIcon icon={faSearch} className="menuIcon"/><span>Search</span>
                  </a>
 

@@ -79,10 +79,11 @@ class Login extends React.Component {
 		};
 
 		if(this.state.goToProfile){
+			console.log("REDIRECTING TO PROFILE!\n");
 			return(<Redirect to={{
 					pathname: "/core-frontend/Profile.html",
 					state: {
-						email: this.state.responseObj
+						email: this.state.responseObj.email
 					}
 			}}/>);
 		}

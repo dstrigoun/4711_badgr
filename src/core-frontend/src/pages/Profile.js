@@ -105,6 +105,12 @@ const theme = createMuiTheme({
       }
   };
 
+var fullName;
+
+var profileData;
+
+var emailProfile;
+
 class Profile extends React.Component {
 
     constructor(props) {
@@ -113,6 +119,7 @@ class Profile extends React.Component {
            loggedIn: true,
            settingsDisplay: false,
            list: ["badge1", "badge2", "badge3"],
+           lastNameNull: true,
         }
 
         this.addSearchItem = this.addSearchItem.bind(this);
@@ -128,19 +135,40 @@ class Profile extends React.Component {
 
       // ms.jenny.ly@gmail.com
       // Load event listener on search input on page load
-      componentDidMount(){
+      componentWillMount(){
           console.log("component will mount!\n");
-          // Add event listeners (search bar)
-          // document.getElementById("searchInput").addEventListener("input", function(e){
-          //   console.log(this.value);
-          //   axios.get("https://jeffchoy.ca/comp4711/badgr-app/users", axiosConfig)
-          //       .then(function(response){
-          //           console.log("Success! : " + response.data["firstName"] + " \n");
-          //       })
-          //       .catch(function(error){
-          //           console.log("axios error!\n");
-          //       })
+
+          console.log(this.props);
+          console.log(this.props.location.state.email);
+
+          if(this.props.location.state.email){
+              console.log("setting email value now!\n");
+              emailProfile = this.props.location.state.email;
+          } else {
+              console.log("CANT FIND EMAIL!\n");
+          }
+
+          // axios({
+          //     method: "get",
+          //     url: "https://jeffchoy.ca/comp4711/badgr-app/users",
+          //     headers: {
+          //         "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
+          //         "email" : emailProfile,
+          //     }
+          // }).then((res) => {
+          //     console.log(res);
           // });
+
+
+          // profileData = this.props.location.state;
+          // console.log("PROFILE DATA : " + profileData);
+          // // if no last name
+          // if(this.props.location.state.lastName){
+          //     console.log("LAST NAME IS NULL!\n");
+          //     this.setState({
+          //         lastNameNull: false,
+          //     });
+          // }
       }
 
      addSearchItem(){
@@ -157,13 +185,14 @@ class Profile extends React.Component {
 
         const { classes } = this.props;
 
-        console.log(classes);
+        console.log("rendering profile now!\n");
 
         return(
             <div>
                 <MenuComponent
         			pageWrapId={'page-wrap'}
-        			outerContainerId={'appMain'}/>
+        			outerContainerId={'appMain'}
+                    />
                 <div id="page-wrap">
                     <div className="outerSearchContainer">
                         <MuiThemeProvider theme={theme}>
@@ -179,7 +208,7 @@ class Profile extends React.Component {
                                         <CardContent
                                             className={classes.content}>
                                             <Typography variant="h3" gutterbottom>
-                                                Segal Au
+                                                {fullName}
                                             </Typography>
                                             <Divider className={classes.dividerStyle}/>
                                             <Typography component="p">
