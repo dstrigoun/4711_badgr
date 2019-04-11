@@ -141,7 +141,7 @@ class Search extends React.Component {
 
                         });
                     });
-                    
+
                     this.setState({
                         list: queueResults,
                     });

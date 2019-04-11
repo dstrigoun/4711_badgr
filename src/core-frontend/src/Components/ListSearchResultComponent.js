@@ -92,7 +92,7 @@ class ListSearchResult extends React.Component {
          console.log(this.props.listResults);
          this.setState({
              searchResults: this.props.listResults,
-         })
+         });
      }
 
 
