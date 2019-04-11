@@ -1,16 +1,15 @@
-body{
+body {
 	box-sizing: border-box;
 }
 
-.outerSearchContainer{
+.outerSearchContainer {
 	width: 100vw;
 	height: 100vh;
-	color: #66DAC7;
-	background-color: #66DAC7;
-
+	color: #66dac7;
+	background-color: #66dac7;
 }
 
-.searchContainer{
+.searchContainer {
 	position: absolute;
 	left: 20%;
 	top: 10%;
@@ -21,7 +20,7 @@ body{
 	border-radius: 25px;
 }
 
-.listContainer{
+.listContainer {
 	position: absolute;
 	left: 5%;
 	top: 20%;
@@ -33,33 +32,32 @@ body{
 	background-color: black;
 	width: 400px;
 	height: 500px;
-
 }
 
-.App{
-  color: black;
-  padding: 1em;
+/* .App {
+	color: black;
+	padding: 1em;
 }
-.NavBar{
-	display:flex;
+.NavBar {
+	display: flex;
 	width: 100%;
 	justify-content: space-between;
-	height:10%;
+	height: 10%;
 }
 
-#Settings{
-	display:flex;
+#Settings {
+	display: flex;
 	flex-flow: row wrap;
 }
-#badgeDefault{
-	display:flex;
+#badgeDefault {
+	display: flex;
 	width: 50%;
-	flex-direction:column;
+	flex-direction: column;
 }
-#profileTheme{
+#profileTheme {
 	width: 50%;
 }
 
-#userInput{
+#userInput {
 	width: 100%;
-}
+} */
