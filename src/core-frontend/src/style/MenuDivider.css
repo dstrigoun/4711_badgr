@@ -1,0 +1,28 @@
+.divider{
+    color: white;
+    margin-top: -30px;
+    padding-bottom: 15px;
+}
+
+.headerText{
+    width: 100px;
+}
+
+.menuIcon{
+    margin-right: 15px;
+}
+
+.menuHeader{
+    color: white;
+}
+
+.menu-item{
+    display: inline-block;
+    color: #d1d1d1;
+    transition: color 0.2s;
+    padding-bottom: 20px;
+}
+
+.menu-item:hover{
+    color: white;
+}
