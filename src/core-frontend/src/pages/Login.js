@@ -25,20 +25,24 @@ class Login extends React.Component {
 		this.setState({ [name]: event.target.value });
 	};
 
-	success(response) {
+	testSuccess(response) {
 		console.log(response);
-		// axios({
-		// 	method: 'get',
-		// 	header: {
-		// 		"Content-Type":"application/json",
 
-		// 	},
-		// 	data: {
-
-		// 	}
-		// }).then(res => {
-
-		// });
+		let responseObj = response.profileObj;
+		let nothing = '';
+		axios({
+			method: 'get',
+			url: 'https://jeffchoy.ca/comp4711/badgr-app/users',
+			header: {
+				'Content-Type': 'application/json'
+			},
+			data: {
+				email: responseObj.email,
+				firstName: responseObj.givenName,
+				lastName: responseObj.familyName,
+				description: nothing
+			}
+		}).then(res => {});
 	}
 
 	testFail() {
@@ -63,10 +67,7 @@ class Login extends React.Component {
 							<GoogleLogin
 								clientId="994995244089-nd58pj7ep27sfkinl3rejpbnpd6l92rq.apps.googleusercontent.com"
 								buttonText="Login"
-								onSuccess={res => {
-									this.testSuccess(res);
-									success(res);
-								}}
+								onSuccess={this.testSuccess}
 								onFailure={this.testFail}
 							/>
 						</div>
