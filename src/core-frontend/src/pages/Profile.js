@@ -28,6 +28,9 @@ import testProfilePic from '../images/exampleProfilePic.jpg';
 // List of Search Results
 import ListSearchResult from '../Components/ListSearchResultComponent.js';
 
+// Redirect
+import { Redirect } from 'react-router-dom';
+
 // Badges Tile List
 
 import List from '@material-ui/core/List';
@@ -84,6 +87,7 @@ const styles = theme => ({
     },
     content: {
         marginTop: "5%",
+        height: "40%",
     }
 
 });
@@ -105,11 +109,15 @@ const theme = createMuiTheme({
       }
   };
 
-var fullName;
+var fullName = "";
 
 var profileData;
 
 var emailProfile;
+
+const profilePath = "/core-frontend/Profile.html";
+const searchPath = "/core-frontend/Search.html";
+const settingsPath = "/core-frontend/Settings.html";
 
 class Profile extends React.Component {
 
@@ -120,10 +128,18 @@ class Profile extends React.Component {
            settingsDisplay: false,
            list: ["badge1", "badge2", "badge3"],
            lastNameNull: true,
+           fullNameState: "",
+           profileDesc: "",
+           profilePicture: "",
+           redirectToNew: false,
+           destUrl: ""
         }
 
         this.addSearchItem = this.addSearchItem.bind(this);
         this.removeSearchItem = this.removeSearchItem.bind(this);
+        this.redirectToProfile = this.redirectToProfile.bind(this);
+        this.redirectToSearch = this.redirectToSearch.bind(this);
+        this.redirectToSettings = this.redirectToSettings.bind(this);
      }
 
 
@@ -136,7 +152,7 @@ class Profile extends React.Component {
       // ms.jenny.ly@gmail.com
       // Load event listener on search input on page load
       componentWillMount(){
-          console.log("component will mount!\n");
+          console.log("Profile : component will mount!\n");
 
           console.log(this.props);
           console.log(this.props.location.state.email);
@@ -148,27 +164,12 @@ class Profile extends React.Component {
               console.log("CANT FIND EMAIL!\n");
           }
 
-          // axios({
-          //     method: "get",
-          //     url: "https://jeffchoy.ca/comp4711/badgr-app/users",
-          //     headers: {
-          //         "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
-          //         "email" : emailProfile,
-          //     }
-          // }).then((res) => {
-          //     console.log(res);
-          // });
+      }
+
+      componentDidMount(){
 
 
-          // profileData = this.props.location.state;
-          // console.log("PROFILE DATA : " + profileData);
-          // // if no last name
-          // if(this.props.location.state.lastName){
-          //     console.log("LAST NAME IS NULL!\n");
-          //     this.setState({
-          //         lastNameNull: false,
-          //     });
-          // }
+
       }
 
      addSearchItem(){
@@ -180,19 +181,98 @@ class Profile extends React.Component {
         // remove search item
      }
 
+     redirectToProfile(){
+         this.setState({
+             redirectToNew: true,
+             destUrl: profilePath
+         });
+         console.log("Set redirect from Profile to Profile!\n");
+     }
+
+     redirectToSearch(){
+         this.setState({
+             redirectToNew: true,
+             destUrl: searchPath
+         });
+         console.log("Set redirect from Profile to Search!\n");
+     }
+
+     redirectToSettings(){
+         this.setState({
+             redirectToNew: true,
+             destUrl: settingsPath
+         });
+         console.log("Set redirect from Profile to Settings!\n");
+     }
+
+     // redirectToProfile(){
+     //     this.setState({
+     //         redirectToNew: true,
+     //         destUrl: profilePath
+     //     });
+     //     console.log("Set redirect from Profile to Profile!\n");
+     // }
+
 
     render(){
+
+        if(this.state.fullNameState == ""){
+            axios({
+                method: "get",
+                url: "https://jeffchoy.ca/comp4711/badgr-app/users",
+                headers: {
+                    "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
+                    "email" : emailProfile,
+                }
+            }).then((res) => {
+                console.log("THIS IS THE RESPONSE!\n");
+                console.log(res);
+                console.log(res.data);
+                profileData = res.data;
+
+                if(profileData.lastName){
+                    fullName = profileData.firstName + profileData.lastName;
+                } else {
+                    fullName = profileData.firstName;
+                }
+                console.log(fullName);
+                this.setState({
+                    fullNameState: fullName,
+                    profileDesc: res.data.description,
+                    profilePicture: res.data.picture,
+                });
+                document.getElementById("profileDescId").innerHTML = this.state.profileDesc;
+            });
+        }
 
         const { classes } = this.props;
 
         console.log("rendering profile now!\n");
+
+        if(this.state.redirectToNew){
+            console.log("redirecting to new from Profile!\n");
+            this.setState({
+                redirectToNew: false,
+            });
+            return(
+                <Redirect to={{
+                    pathname: this.state.destUrl,
+                    state: {
+                        email: emailProfile,
+                    }
+                }}/>
+            );
+        }
 
         return(
             <div>
                 <MenuComponent
         			pageWrapId={'page-wrap'}
         			outerContainerId={'appMain'}
-                    />
+                    email={emailProfile}
+                    redirectToProfile={this.redirectToProfile}
+                    redirectToSearch={this.redirectToSearch}
+                    redirectToSettings={this.redirectToSettings}/>
                 <div id="page-wrap">
                     <div className="outerSearchContainer">
                         <MuiThemeProvider theme={theme}>
@@ -202,19 +282,17 @@ class Profile extends React.Component {
                                       <CardActionArea>
                                         <CardMedia
                                           className={classes.media}
-                                          image={testProfilePic}
+                                          image={this.state.profilePicture}
                                           title="Contemplative Reptile"
                                         />
                                         <CardContent
                                             className={classes.content}>
                                             <Typography variant="h3" gutterbottom>
-                                                {fullName}
+                                                {this.state.fullNameState}
                                             </Typography>
                                             <Divider className={classes.dividerStyle}/>
-                                            <Typography component="p">
-                                              Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                              across all continents except Antarctica
-                                            </Typography>
+                                            <div id="profileDescId" className="profileDescId"></div>
+
                                         </CardContent>
                                       </CardActionArea>
                                       <CardActions>

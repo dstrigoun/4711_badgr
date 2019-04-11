@@ -10,6 +10,10 @@ import "../style/Search.css";
 // Axios
 import axios from 'axios';
 
+// Redirect
+import { Redirect } from 'react-router-dom';
+
+
 // List of Search Results
 import ListSearchResult from '../Components/ListSearchResultComponent.js';
 
@@ -48,6 +52,12 @@ const styles = theme => ({
       }
   };
 
+  var emailSearch;
+
+  const profilePath = "/core-frontend/Profile.html";
+  const searchPath = "/core-frontend/Search.html";
+  const settingsPath = "/core-frontend/Settings.html";
+
 class Search extends React.Component {
 
     constructor(props) {
@@ -56,10 +66,15 @@ class Search extends React.Component {
            loggedIn: true,
            settingsDisplay: false,
            list: [],
+           redirectToNew: false,
+           destUrl: ""
         }
 
         this.addSearchItem = this.addSearchItem.bind(this);
         this.removeSearchItem = this.removeSearchItem.bind(this);
+        this.redirectToProfile = this.redirectToProfile.bind(this);
+        this.redirectToSearch = this.redirectToSearch.bind(this);
+        this.redirectToSettings = this.redirectToSettings.bind(this);
      }
 
 
@@ -69,21 +84,25 @@ class Search extends React.Component {
         });
       };
 
+
+      componentWillMount(){
+          emailSearch = this.props.location.state.email;
+      }
       // ms.jenny.ly@gmail.com
       // Load event listener on search input on page load
       componentDidMount(){
           console.log("component will mount!\n");
           // Add event listeners (search bar)
-          document.getElementById("searchInput").addEventListener("input", function(e){
-            console.log(this.value);
-            axios.get("https://jeffchoy.ca/comp4711/badgr-app/users", axiosConfig)
-                .then(function(response){
-                    console.log("Success! : " + response.data["firstName"] + " \n");
-                })
-                .catch(function(error){
-                    console.log("axios error!\n");
-                })
-          });
+          // document.getElementById("searchInput").addEventListener("input", function(e){
+          //   console.log(this.value);
+          //   axios.get("https://jeffchoy.ca/comp4711/badgr-app/users", axiosConfig)
+          //       .then(function(response){
+          //           console.log("Success! : " + response.data["firstName"] + " \n");
+          //       })
+          //       .catch(function(error){
+          //           console.log("axios error!\n");
+          //       })
+          // });
       }
 
      addSearchItem(){
@@ -95,16 +114,59 @@ class Search extends React.Component {
         // remove search item
      }
 
+     redirectToProfile(){
+         this.setState({
+             redirectToNew: true,
+             destUrl: profilePath
+         });
+         console.log("Set redirect from Profile to Profile!\n");
+     }
+
+     redirectToSearch(){
+         this.setState({
+             redirectToNew: true,
+             destUrl: searchPath
+         });
+         console.log("Set redirect from Profile to Search!\n");
+     }
+
+     redirectToSettings(){
+         this.setState({
+             redirectToNew: true,
+             destUrl: settingsPath
+         });
+         console.log("Set redirect from Profile to Settings!\n");
+     }
+
 
     render(){
 
         const { classes } = this.props;
 
+        if(this.state.redirectToNew){
+            console.log("redirecting to new from Profile!\n");
+            this.setState({
+                redirectToNew: false,
+            });
+            return(
+                <Redirect to={{
+                    pathname: this.state.destUrl,
+                    state: {
+                        email: emailSearch,
+                    }
+                }}/>
+            );
+        }
+
         return(
             <div>
                 <MenuComponent
         			pageWrapId={'page-wrap'}
-        			outerContainerId={'appMain'}/>
+        			outerContainerId={'appMain'}
+                    email={emailSearch}
+                    redirectToProfile={this.redirectToProfile}
+                    redirectToSearch={this.redirectToSearch}
+                    redirectToSettings={this.redirectToSettings}/>
                 <div id="page-wrap">
                     <div className="outerSearchContainer">
                         <div className="searchContainer">

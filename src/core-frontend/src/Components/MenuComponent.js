@@ -43,62 +43,61 @@ library.add(
 
 const path = "/core-frontend/";
 
+const profilePath = "/core-frontend/Profile.html";
+const searchPath = "/core-frontend/Search.html";
+
 var emailMenu;
 
 class MenuComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-           // loggedIn: true,
-           settingsDisplay: false,
            destUrl: "",
            redirected: false,
         }
-        this.test = this.test.bind(this);
-        this.closeSettings = this.closeSettings.bind(this);
-        this.redirectTo = this.redirectTo.bind(this);
+        // this.closeSettings = this.closeSettings.bind(this);
+        this.redirectProfile = this.redirectProfile.bind(this);
+     }
+
+     redirectProfile(){
+         this.setState({
+             destUrl: profilePath,
+             redirected: true,
+         });
+         console.log("redirectProfile function called!\n");
      }
 
      componentWillMount(){
-         console.log("Props: " + this.props);
+         console.log(this.props);
          console.log("Email: " + this.props.email);
 
          emailMenu = this.props.email;
+     }
 
-         // axios({
-         //     method: "get",
-         //     url: "https://jeffchoy.ca/comp4711/badgr-app/users",
-         //     headers: {
-         //         "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
-         //         "email" : emailMenu,
-         //     }
-         // }).then((res) => {
-         //     console.log(res);
+     componentDidMount(){
+         //Set listeners
+         // document.getElementById("profileMenuBtn").addEventListener('click', function(){
+         //     this.setState({
+         //         destUrl: profilePath,
+         //         redirected: true,
+         //     });
+         //     console.log("profile event listener triggered!\n");
          // });
      }
 
-     redirectTo(url){
-         this.setState({
-             destUrl: url,
-             redirected: true,
-         })
-     }
 
 
-     test(){
-         this.setState({
-             settingsDisplay: true
-         });
-     }
 
-     closeSettings(){
-         console.log("RUNNING CLOSE SETTINGS!\n");
-         this.setState({
-             settingsDisplay: false
-         });
-         console.log("ran close settings!\n");
-         console.log(this.state.settingsDisplay);
-     }
+
+
+     // closeSettings(){
+     //     console.log("RUNNING CLOSE SETTINGS!\n");
+     //     this.setState({
+     //         settingsDisplay: false
+     //     });
+     //     console.log("ran close settings!\n");
+     //     console.log(this.state.settingsDisplay);
+     // }
 
      logout(){
          console.log("logged out!\n");
@@ -112,17 +111,6 @@ class MenuComponent extends React.Component {
 
      render(){
 
-         if(this.state.redirected){
-             // return(
-             //     <Redirect to={{
-             //         pathname: this.state.destUrl,
-             //         state: {
-             //             email : emailMenu
-             //         }
-             //     }}/>
-             // );
-         }
-
          //onClick={this.redirectTo({path} + "Search.html")
          return (
 
@@ -130,17 +118,15 @@ class MenuComponent extends React.Component {
                <Menu pageWrapId= {this.props.pageWrapId}
                     outerContainerId= {this.props.outerContainerId}>
 
-
-
                  <h1 className="menuHeader">MENU</h1>
 
                  <h1 className="divider">_________________</h1>
 
-                 <a className="menu-item" >
+                 <a className="menu-item" onClick={this.props.redirectToProfile}>
                    <FontAwesomeIcon icon={faUserCircle} className="menuIcon"/><span>Profile</span>
                  </a>
 
-                 <a className="menu-item" }>
+                 <a className="menu-item" onClick={this.props.redirectToSearch}>
                    <FontAwesomeIcon icon={faSearch} className="menuIcon"/><span>Search</span>
                  </a>
 
@@ -148,7 +134,7 @@ class MenuComponent extends React.Component {
                    <FontAwesomeIcon icon={faGlobeAmericas} className="menuIcon"/><span>WhereIsYou</span>
                  </a>
 
-                 <a className="menu-item" href={path + "Settings.html"}>
+                 <a className="menu-item" onClick={this.props.redirectToSettings}>
                    <FontAwesomeIcon icon={faCogs} className="menuIcon"/><span>Settings</span>
                  </a>
 

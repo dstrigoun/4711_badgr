@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactQuill from 'react-quill';
-import axios from 'axios';
+import axios from "axios";
 import firebase from 'firebase';
 import FileUploader from 'react-firebase-file-uploader';
 
@@ -8,6 +8,11 @@ import FileUploader from 'react-firebase-file-uploader';
 import '../style/App.css';
 import '../style/Settings.css';
 import 'react-quill/dist/quill.snow.css';
+
+// Redirect
+import { Redirect } from 'react-router-dom';
+
+
 
 // icons
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -27,6 +32,16 @@ const config ={
 firebase.initializeApp(config);
 library.add(faArrowLeft);
 
+var emailSettings;
+
+var fullname = "";
+
+var profileData;
+
+const profilePath = "/core-frontend/Profile.html";
+const searchPath = "/core-frontend/Search.html";
+const settingsPath = "/core-frontend/Settings.html";
+
 class Settings extends React.Component {
 
   constructor(props) {
@@ -39,7 +54,12 @@ class Settings extends React.Component {
         picture: '',
         filename: '',
         isUploading: false,
-        progress: 0
+        progress: 0,
+        fullNameState: "",
+        profileDesc: "",
+        profilePicture: "",
+        redirectToNew: false,
+        destUrl: ""
     }
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleWYSIWYG = this.handleWYSIWYG.bind(this);
@@ -48,6 +68,9 @@ class Settings extends React.Component {
     this.handleProgress = this.handleProgress.bind(this);
     this.handleUploadError = this.handleUploadError.bind(this);
     this.handleUploadSuccess = this.handleUploadSuccess.bind(this);
+    this.redirectToProfile = this.redirectToProfile.bind(this);
+    this.redirectToSearch = this.redirectToSearch.bind(this);
+    this.redirectToSettings = this.redirectToSettings.bind(this);
     axios.defaults.headers.common['Content-Type'] = 'application/json';
   }
 
@@ -87,23 +110,28 @@ class Settings extends React.Component {
   handleSubmit(event) {
     console.log(this.state);
     axios({
-      method: 'put',
-      url: 'https://jeffchoy.ca/comp4711/badgr-app/users',
+      method: "put",
+      url: "https://jeffchoy.ca/comp4711/badgr-app/users",
       data: {
-        email: this.state.email,
+        email: emailSettings,
         firstName: this.state.firstName,
         lastName: this.state.lastName,
         description: this.state.description,
-        picture: this.state.picture
+        picture: this.state.picture,
       },
       headers: {
-        'Content-Type': 'application/json'}
-      })
-      .then(res=> {
+        "Content-Type": "application/json",
+        "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
+      }
+    }).then((res)=> {
         if (res.status == 200) {
           alert("success!");
         }
-      })
+    });
+  }
+
+  componentWillMount(){
+      emailSettings = this.props.location.state.email;
   }
 
   componentDidMount() {
@@ -133,16 +161,81 @@ class Settings extends React.Component {
     this.setState({description: value});
   }
 
+  redirectToProfile(){
+      this.setState({
+          redirectToNew: true,
+          destUrl: profilePath
+      });
+      console.log("Set redirect from Profile to Profile!\n");
+  }
+
+  redirectToSearch(){
+      this.setState({
+          redirectToNew: true,
+          destUrl: searchPath
+      });
+      console.log("Set redirect from Profile to Search!\n");
+  }
+
+  redirectToSettings(){
+      this.setState({
+          redirectToNew: true,
+          destUrl: settingsPath
+      });
+      console.log("Set redirect from Profile to Settings!\n");
+  }
+
   render() {
     const { classes } = this.props;
 
+    if(this.state.redirectToNew){
+        console.log("redirecting to new from Profile!\n");
+        this.setState({
+            redirectToNew: false,
+        });
+        return(
+            <Redirect to={{
+                pathname: this.state.destUrl,
+                state: {
+                    email: emailSettings,
+                }
+            }}/>
+        );
+    }
+
+
+    if(this.state.fullNameState == ""){
+        axios({
+            method: "get",
+            url: "https://jeffchoy.ca/comp4711/badgr-app/users",
+            headers: {
+                "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
+                "email" : emailSettings,
+            }
+        }).then((res) => {
+            console.log("THIS IS THE RESPONSE!\n");
+            console.log(res);
+            console.log(res.data);
+            profileData = res.data;
+
+
+            this.setState({
+                fullNameState: "lololol",
+                profileDesc: res.data.description,
+                profilePicture: res.data.picture,
+            });
+        });
+    }
 
     return (
-
         <div>
             <MenuComponent
                 pageWrapId={'page-wrap'}
-                outerContainerId={'appMain'}/>
+                outerContainerId={'appMain'}
+                email={emailSettings}
+                redirectToProfile={this.redirectToProfile}
+                redirectToSearch={this.redirectToSearch}
+                redirectToSettings={this.redirectToSettings}/>
             <div id="page-wrap">
               <div className="App">
                 <div className="grid-container">
@@ -181,7 +274,7 @@ class Settings extends React.Component {
                         </div>
 
                         <div className="inputcontainer">
-                          <input id="email" name="email" type="text" className="primaryKey inputField" value={this.state.email} readOnly/>
+                          <input id="email" name="email" type="text" className="primaryKey inputField" value={emailSettings} readOnly/>
                           <label className="inputLabel" htmlFor="email">Email</label>
                         </div>
 

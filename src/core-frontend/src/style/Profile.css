@@ -20,6 +20,18 @@ body{
 	float:left;
 }
 
+.profileDescId{
+	height: 30%;
+	width: 80%;
+	
+}
+
+.profileDescId p{
+	color: black;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 .badgesContainer{
 	width: 50%;
 	height: 85%;
