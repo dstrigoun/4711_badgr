@@ -13,7 +13,7 @@
 
 .App__Login{
   display:inline-block;
-  height: 25%;
+  height: 15%;
   width: 60%;
   text-align: center;
   font-size: 40%;
@@ -38,6 +38,7 @@
   background-color: #2E4158;
   padding: 25px 40px;
   overflow: hidden;
+  border-radius: 25px;
 }
 
 .PageSwitcher {

@@ -55,8 +55,8 @@ const styles = theme => ({
         padding: "20px"
     },
     media: {
-        height: "400px",
-        width: "400px",
+        height: "250px",
+        width: "250px",
         marginLeft: "auto",
         marginRight: "auto",
         borderRadius: "50%",
@@ -77,6 +77,8 @@ const styles = theme => ({
         maxWidth: 500,
         marginTop: "10%",
         backgroundColor: theme.palette.background.paper,
+        maxHeight: "90%",
+        overflow: "auto",
     },
     gridList: {
         width: 500,
