@@ -118,9 +118,7 @@ class MenuComponent extends React.Component {
                  </GoogleLogout>
 
                </Menu>
-               <SettingComponent
-                    open = {this.state.settingsDisplay}
-                    closeSettings = {this.closeSettings}/>
+
             </div>
          );
      }

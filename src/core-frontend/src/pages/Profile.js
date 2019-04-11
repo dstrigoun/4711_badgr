@@ -38,6 +38,8 @@ import ImageIcon from '@material-ui/icons/Image';
 import WorkIcon from '@material-ui/icons/Work';
 import BeachAccessIcon from '@material-ui/icons/BeachAccess';
 
+import MenuComponent from '../Components/MenuComponent.js';
+
 const styles = theme => ({
     card: {
         maxWidth: "80%",
@@ -155,51 +157,60 @@ class Profile extends React.Component {
 
         const { classes } = this.props;
 
+        console.log(classes);
+
         return(
+            <div>
+                <MenuComponent
+        			pageWrapId={'page-wrap'}
+        			outerContainerId={'appMain'}/>
+                <div id="page-wrap">
+                    <div className="outerSearchContainer">
+                        <MuiThemeProvider theme={theme}>
+                            <div className="profileOuterContainer">
+                                <div className="profileContainer">
+                                    <Card className={classes.card} >
+                                      <CardActionArea>
+                                        <CardMedia
+                                          className={classes.media}
+                                          image={testProfilePic}
+                                          title="Contemplative Reptile"
+                                        />
+                                        <CardContent
+                                            className={classes.content}>
+                                            <Typography variant="h3" gutterbottom>
+                                                Segal Au
+                                            </Typography>
+                                            <Divider className={classes.dividerStyle}/>
+                                            <Typography component="p">
+                                              Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                                              across all continents except Antarctica
+                                            </Typography>
+                                        </CardContent>
+                                      </CardActionArea>
+                                      <CardActions>
 
-            <div className="outerSearchContainer">
-                <MuiThemeProvider theme={theme}>
-                    <div className="profileOuterContainer">
-                        <div className="profileContainer">
-                            <Card className={classes.card} >
-                              <CardActionArea>
-                                <CardMedia
-                                  className={classes.media}
-                                  image={testProfilePic}
-                                  title="Contemplative Reptile"
-                                />
-                                <CardContent
-                                    className={classes.content}>
-                                    <Typography variant="h3" gutterbottom>
-                                        Segal Au
-                                    </Typography>
-                                    <Divider className={classes.dividerStyle}/>
-                                    <Typography component="p">
-                                      Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-                                      across all continents except Antarctica
-                                    </Typography>
-                                </CardContent>
-                              </CardActionArea>
-                              <CardActions>
-
-                              </CardActions>
-                            </Card>
-                        </div>
-                        <div className="badgesContainer">
-                            <List className={classes.listRoot}>
-                                {this.state.list.map((badge) => (
-                                    <ListItem button>
-                                      <Avatar>
-                                        <ImageIcon />
-                                      </Avatar>
-                                      <ListItemText primary={badge} />
-                                    </ListItem>
-                                ))}
-                          </List>
-                        </div>
+                                      </CardActions>
+                                    </Card>
+                                </div>
+                                <div className="badgesContainer">
+                                    <List className={classes.listRoot}>
+                                        {this.state.list.map((badge) => (
+                                            <ListItem button>
+                                              <Avatar>
+                                                <ImageIcon />
+                                              </Avatar>
+                                              <ListItemText primary={badge} />
+                                            </ListItem>
+                                        ))}
+                                  </List>
+                                </div>
+                            </div>
+                        </MuiThemeProvider>
                     </div>
-                </MuiThemeProvider>
+                </div>
             </div>
+
         );
     }
 }

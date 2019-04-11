@@ -13,6 +13,8 @@ import axios from 'axios';
 // List of Search Results
 import ListSearchResult from '../Components/ListSearchResultComponent.js';
 
+import MenuComponent from '../Components/MenuComponent.js';
+
 const styles = theme => ({
     container: {
       display: 'flex',
@@ -99,23 +101,30 @@ class Search extends React.Component {
         const { classes } = this.props;
 
         return(
-            <div className="outerSearchContainer">
-                <div className="searchContainer">
-                    <TextField
-                        id="searchInput"
-                        label="Search for users"
-                        type="search"
-                        className={classes.textField}
-                        margin="normal"
-                        variant="outlined"
-                        primary="red"
-                        secondary="red"/>
+            <div>
+                <MenuComponent
+        			pageWrapId={'page-wrap'}
+        			outerContainerId={'appMain'}/>
+                <div id="page-wrap">
+                    <div className="outerSearchContainer">
+                        <div className="searchContainer">
+                            <TextField
+                                id="searchInput"
+                                label="Search for users"
+                                type="search"
+                                className={classes.textField}
+                                margin="normal"
+                                variant="outlined"
+                                primary="red"
+                                secondary="red"/>
 
-                    <div className = "listContainer">
-                        <ListSearchResult
-                            />
+                            <div className = "listContainer">
+                                <ListSearchResult
+                                    />
+                            </div>
+
+                        </div>
                     </div>
-
                 </div>
             </div>
         );

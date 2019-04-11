@@ -26,6 +26,7 @@ class Login extends React.Component {
 
 		this.state = {
 			goToProfile: false,
+			responseObj: "original value",
 		};
 
 		this.testSuccess = this.testSuccess.bind(this);
@@ -38,24 +39,33 @@ class Login extends React.Component {
 		console.log(response);
 
 		let responseObj = response.profileObj;
-		let nothing = '';
-		// axios({
-		// 	method: 'get',
-		// 	url: 'https://jeffchoy.ca/comp4711/badgr-app/users',
-		// 	header: {
-		// 		'Content-Type': 'application/json'
-		// 	},
-		// 	data: {
-		// 		email: responseObj.email,
-		// 		firstName: responseObj.givenName,
-		// 		lastName: responseObj.familyName,
-		// 		description: nothing
-		// 	}
-		// }).then(res => {});
+		let nothing = "";
 
-		this.setState({
-			goToProfile: true,
-		})
+		// try to add user
+		axios({
+			method: 'post',
+			url: 'https://jeffchoy.ca/comp4711/badgr-app/users',
+			headers: {
+				'Content-Type': 'application/json',
+				"Authorization" : "ca19f39c-8396-4534-8048-d7a406d9357a"
+			},
+			data: {
+				email: responseObj.email,
+				firstName: responseObj.givenName,
+				lastName: responseObj.givenName,
+				description: nothing
+			}
+		}).then(() => {
+			console.log("Post executed!\n");
+
+			this.setState({
+				responseObj: responseObj,
+				goToProfile: true,
+			})
+		});
+
+
+
 	}
 
 	testFail() {
@@ -68,6 +78,14 @@ class Login extends React.Component {
 			console.log(response);
 		};
 
+		if(this.state.goToProfile){
+			return(<Redirect to={{
+					pathname: "/core-frontend/Profile.html",
+					state: {
+						email: this.state.responseObj
+					}
+			}}/>);
+		}
 
 
 		return (

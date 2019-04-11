@@ -14,6 +14,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
+import MenuComponent from '../Components/MenuComponent.js';
+
 const config ={
   apiKey: "AIzaSyADQwUkVDPsqWZR6WG8mx0955TBa0Av0rM",
   authDomain: "testerino-ccc07.firebaseapp.com",
@@ -136,68 +138,76 @@ class Settings extends React.Component {
 
 
     return (
-      <div className="App">
-        <div className="grid-container">
-          <div className="row">
+
+        <div>
+            <MenuComponent
+                pageWrapId={'page-wrap'}
+                outerContainerId={'appMain'}/>
+            <div id="page-wrap">
+              <div className="App">
+                <div className="grid-container">
+                  <div className="row">
 
 
 
-            <div id="Settings" className="col-4 card">
-              <div id="title" className="" >
-                <a className="settingsSub" href="/Profile">
-                  <FontAwesomeIcon icon={faArrowLeft} id="back" size="2x"/><span></span>
-                </a>
-                <h1 className="settingsSub">Edit Profile</h1>
+                    <div id="Settings" className="col-4 card">
+                      <div id="title" className="" >
+                        <a className="settingsSub" href="/Profile">
+                          <FontAwesomeIcon icon={faArrowLeft} id="back" size="2x"/><span></span>
+                        </a>
+                        <h1 className="settingsSub">Edit Profile</h1>
+                      </div>
+
+                      <div id="profile-details">
+                        <h4 className="subtitle"> Profile Details</h4>
+                        <div className="imgContainer">
+                          {this.state.picture !== '' && <img className="avatar" src={this.state.picture} />}
+                          <label className="buttonLabel">
+                            Update Image
+                            <FileUploader
+                              hidden
+                              accept="image/*"
+                              name="picture"
+                              randomizeFilename
+                              storageRef={firebase.storage().ref("images")}
+                              onUploadStart={this.handleUploadStart}
+                              onUploadError={this.handleUploadError}
+                              onUploadSuccess={this.handleUploadSuccess}
+                              onProgress={this.handleProgress}
+                            />
+                          </label>
+
+
+                        </div>
+
+                        <div className="inputcontainer">
+                          <input id="email" name="email" type="text" className="primaryKey inputField" value={this.state.email} readOnly/>
+                          <label className="inputLabel" htmlFor="email">Email</label>
+                        </div>
+
+                        <div className="inputcontainer">
+                          <input id="firstName" name="firstName" type="text" className="inputField" value={this.state.firstName} onChange={this.handleChange}/>
+                          <label className="inputLabel" htmlFor="firstName">First Name</label>
+                        </div>
+
+                        <div className="inputcontainer">
+                          <input id="lastName" name="lastName"type="text" className="inputField" value={this.state.lastName} onChange={this.handleChange} />
+                          <label className="inputLabel" htmlFor="lastName">Last Name</label>
+                        </div>
+                        <br/>
+
+                        <div className="wysiwygContainer">
+                          <ReactQuill id="description" value={this.state.description}
+                          onChange={this.handleWYSIWYG} className="wysiwyg" />
+                          <label  className="inputLabelWYSIWYG" htmlFor="lastName">Description:</label>
+                        </div>
+                      </div>
+                      <div className="buttonLabel" onClick={this.handleSubmit}>Submit</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-
-              <div id="profile-details">
-                <h4 className="subtitle"> Profile Details</h4>
-                <div className="imgContainer">
-                  {this.state.picture !== '' && <img className="avatar" src={this.state.picture} />}
-                  <label className="buttonLabel">
-                    Update Image
-                    <FileUploader
-                      hidden
-                      accept="image/*"
-                      name="picture"
-                      randomizeFilename
-                      storageRef={firebase.storage().ref("images")}
-                      onUploadStart={this.handleUploadStart}
-                      onUploadError={this.handleUploadError}
-                      onUploadSuccess={this.handleUploadSuccess}
-                      onProgress={this.handleProgress}
-                    />
-                  </label>
-
-
-                </div>
-
-                <div className="inputcontainer">
-                  <input id="email" name="email" type="text" className="primaryKey inputField" value={this.state.email} readOnly/>
-                  <label className="inputLabel" htmlFor="email">Email</label>
-                </div>
-
-                <div className="inputcontainer">
-                  <input id="firstName" name="firstName" type="text" className="inputField" value={this.state.firstName} onChange={this.handleChange}/>
-                  <label className="inputLabel" htmlFor="firstName">First Name</label>
-                </div>
-
-                <div className="inputcontainer">
-                  <input id="lastName" name="lastName"type="text" className="inputField" value={this.state.lastName} onChange={this.handleChange} />
-                  <label className="inputLabel" htmlFor="lastName">Last Name</label>
-                </div>
-                <br/>
-
-                <div className="wysiwygContainer">
-                  <ReactQuill id="description" value={this.state.description}
-                  onChange={this.handleWYSIWYG} className="wysiwyg" />
-                  <label  className="inputLabelWYSIWYG" htmlFor="lastName">Description:</label>
-                </div>
-              </div>
-              <div className="buttonLabel" onClick={this.handleSubmit}>Submit</div>
-            </div>
           </div>
-        </div>
       </div>
     );
   }

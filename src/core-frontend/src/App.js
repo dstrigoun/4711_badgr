@@ -56,10 +56,10 @@ class App extends React.Component {
 
 		return (
 			<div id="appMain">
-				{logInScreen ? <div /> : <DisplayMenu />}
+
 
 				<BrowserRouter basename={process.env.PUBLIC_URL}>
-					<div id="page-wrap">
+
 						<Route
 							path={path + 'index.html'}
 							render={props => <Login />}
@@ -80,7 +80,7 @@ class App extends React.Component {
 							component={Settings}
 							exact
 						/>
-					</div>
+				
 				</BrowserRouter>
 			</div>
 		);
