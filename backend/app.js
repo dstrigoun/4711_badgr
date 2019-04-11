@@ -31,19 +31,19 @@ const app = express();
 const jsonParser = bodyParser.json();
 
 app.use(cors());
-/*let con = mysql.createConnection({
+let con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: '',
   database: 'badgr'
-});*/
-
-let con = mysql.createConnection({
-  host: 'localhost',
-  user: 'jeffchoy_badgr',
-  password: 'b0w$hOck',
-  database: 'jeffchoy_badgr'
 });
+
+// let con = mysql.createConnection({
+//   host: 'localhost',
+//   user: 'jeffchoy_badgr',
+//   password: 'b0w$hOck',
+//   database: 'jeffchoy_badgr'
+// });
 
 // get user
 app.get('/comp4711/badgr-app/users', jsonParser, function (req, res) {
@@ -331,14 +331,15 @@ app.get('/comp4711/badgr-app/searchusers', jsonParser, function(req, res){
           if (tokenResult.length == 0) {
             res.status(404).send("no api key found for external app");
           } else {
-            console.log("here");
-            console.log(tokenResult);
+            console.log("passed in date is ...");
+            console.log(req.header('currDate'));
+            //console.log(tokenResult);
             axios({
               method: 'get',
               url: 'https://whereisyou.herokuapp.com/scores.php',
               headers: {
                     'key': tokenResult[0].token,
-                    'date': req.header('date'),
+                    'currentDate': req.header('currDate'),
                     'leaderboard': true
                   }
             })
@@ -372,7 +373,7 @@ app.get('/comp4711/badgr-app/searchusers', jsonParser, function(req, res){
             }).catch(function(err){
               //res.status(500).send(err);
               console.log("hekk")
-              console.log(tokenResult[0]);
+              //console.log(tokenResult[0]);
               //console.log(err);
             })
           }
