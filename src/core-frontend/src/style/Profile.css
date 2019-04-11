@@ -1,42 +1,41 @@
 body{
 	box-sizing: border-box;
 }
-.App{
-  display: flex;
-  /* color: black; */
+
+.profileOuterContainer{
+	position: absolute;
+	left: 20%;
+	top: 10%;
+	width: 65vw;
+	height: 80vh;
+	color: white;
+	background-color: white;
+	border-radius: 25px;
+	background-color: #373a47;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)
 }
 
-.App_LeftPanel{
-
-  width: 20%;
-  height: 90%;
-  padding: 2em;
+.profileContainer{
+	width: 50%;
+	height: 85%;
+	display: inline-block;
 }
 
-.App_MiddlePanel{
+.badgesOuterContainer{
 
-  width: 30%;
-}
-
-.App_RightPanel{
-  width: 50%;
-  height: 90%;
-  padding: 1em;
 }
 
-.badge{
-	height:10%;
-	width:10%;
-}
-.badgeFull{
-	height:25%;
-	width:25%;
+.badgesContainer{
+	width: 30%;
+	height: 85%;
+	display:inline-block;
 }
 
-.Badges_Title{
-	display: flex;
-    justify-content: space-between;
+.dividerStyle{
+	margin-top: 10px;
+
 }
+
 
 #badgeBlock{
 	background-color: #BFEEFF;

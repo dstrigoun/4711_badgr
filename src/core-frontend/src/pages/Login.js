@@ -13,9 +13,15 @@ import { Redirect } from 'react-router-dom'
 const path = "/core-frontend/";
 
 class Login extends React.Component {
-    state = {
-        isLoggedIn: false
+    constructor(props) {
+        super(props);
+        this.state = {
+            isLoggedIn: false
+        }
+        this.testSuccess = this.testSuccess.bind(this);
     }
+
+
 
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
@@ -24,21 +30,18 @@ class Login extends React.Component {
 
   testSuccess(){
       console.log("signed in!\n");
-      this.props.userLoggedIn;
+      this.props.userLoggedIn();
       this.setState({
-         isLoggedIn: true 
+         isLoggedIn: true
       });
+      window.location.href = "http://segalau.com/core-frontend/Profile.html";
   }
 
   testFail(){
       console.log("failed!\n");
   }
 
-  redirectToProfile(){
-      if(this.state.isLoggedIn){
-          return <Redirect to={path + "Profile.html"}/>;
-      }
-  }
+
 
   render() {
     const { classes } = this.props;
@@ -48,18 +51,17 @@ class Login extends React.Component {
 
     return (
       <div>
-        {this.redirectToProfile}
           <div class="App">
             <div class="App_LeftPanel">
                 <div class="App__Login">
                   <h1 class="description">Log in or Sign up with your Google Account</h1>
                   <a href="./profile.html">Log In</a>
-                  *<GoogleLogin
+                  <GoogleLogin
                   clientId="994995244089-nd58pj7ep27sfkinl3rejpbnpd6l92rq.apps.googleusercontent.com"
                   buttonText="Login"
                   onSuccess={this.testSuccess}
                   onFailure={this.testFail}
-                />*
+                />
                 </div>
             </div>
 

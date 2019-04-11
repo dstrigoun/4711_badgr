@@ -17,13 +17,23 @@ import SettingComponent from './Components/SettingComponent';
 
 const path = "/core-frontend/";
 
+const logInScreen = window.location.href == "http://segalau.com/core-frontend/index.html";
+
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-           loggedIn: false,
+           loggedIn: true,
            settingsDisplay: false
         }
+
+        this.userLoggedIn = this.userLoggedIn.bind(this);
+
+        // if(window.location.href != "http://segalau.com/core-frontend/index.html"){
+        //     console.log("should display menu!\n");
+        //     this.userLoggedIn();
+        //     console.log(this.state.loggedIn);
+        // }
      }
 
 
@@ -40,13 +50,14 @@ class App extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const responseGoogle = (response) => {
-      console.log(response);
-    }
+    // const responseGoogle = (response) => {
+    //   console.log(response);
+    // }
 
     return (
         <div id="appMain">
-            <DisplayMenu isLoggedIn={this.state.loggedIn} settingsDisplay={this.state.settingsDisplay}/>
+            {logInScreen ? (<div/>) : (<DisplayMenu isLoggedIn={this.state.loggedIn} settingsDisplay={this.state.settingsDisplay}/>)}
+
 
             <BrowserRouter basename={process.env.PUBLIC_URL}>
                 <div id="page-wrap">

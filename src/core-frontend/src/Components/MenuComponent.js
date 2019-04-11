@@ -19,6 +19,8 @@ import { faCogs } from '@fortawesome/free-solid-svg-icons';
 // SETTING
 import SettingComponent from './SettingComponent';
 
+// Google Log out
+import { GoogleLogout } from 'react-google-login';
 
 
 // STYLES
@@ -63,6 +65,15 @@ class MenuComponent extends React.Component {
          console.log(this.state.settingsDisplay);
      }
 
+     logout(){
+         console.log("logged out!\n");
+     }
+
+     // <!-- <GoogleLogout
+     //   clientId="994995244089-nd58pj7ep27sfkinl3rejpbnpd6l92rq.apps.googleusercontent.com"
+     //   buttonText="Logout"
+     //   onLogoutSuccess={this.logout}>
+     // </GoogleLogout> -->
 
      render(){
          return (
@@ -93,9 +104,19 @@ class MenuComponent extends React.Component {
                    <FontAwesomeIcon icon={faCogs} className="menuIcon"/><span>Settings</span>
                  </a>
 
-                 <a className="menu-item" href="/">
-                   <FontAwesomeIcon icon={faSignOutAlt} className="menuIcon"/><span>Logout</span>
-                 </a>
+
+                 <GoogleLogout
+                   clientId="658977310896-knrl3gka66fldh83dao2rhgbblmd4un9.apps.googleusercontent.com"
+                   buttonText="Logout"
+                   render = {renderProps => (
+                       <a className="menu-item" href={path + "index.html"}>
+                         <FontAwesomeIcon icon={faSignOutAlt} className="menuIcon"/><span>Logout</span>
+                       </a>
+                   )}
+                   onLogoutSuccess={this.logout}
+                 >
+                 </GoogleLogout>
+
                </Menu>
                <SettingComponent
                     open = {this.state.settingsDisplay}

@@ -7,11 +7,25 @@ body{
 	height: 100vh;
 	color: #66DAC7;
 	background-color: #66DAC7;
+
 }
 
-#searchContainer{
-	background-color: red;
-	color: red;
+.searchContainer{
+	position: absolute;
+	left: 20%;
+	top: 10%;
+	width: 65vw;
+	height: 80vh;
+	color: white;
+	background-color: white;
+	border-radius: 25px;
+}
+
+.listContainer{
+	position: absolute;
+	left: 5%;
+	top: 20%;
+	width: 90%;
 }
 
 #test {

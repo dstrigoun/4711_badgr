@@ -7,6 +7,12 @@ import TextField from '@material-ui/core/TextField';
 
 import "../style/Search.css";
 
+// Axios
+import axios from 'axios';
+
+// List of Search Results
+import ListSearchResult from '../Components/ListSearchResultComponent.js';
+
 const styles = theme => ({
     container: {
       display: 'flex',
@@ -14,9 +20,14 @@ const styles = theme => ({
     },
     textField: {
       position: "absolute",
-      left: "15%",
-      top: "10%",
-      width: "70%",
+      left: "5%",
+      top: "5%",
+      width: "90%",
+    },
+    searchContainerBox: {
+        position: "relative",
+
+        width: "70%",
     },
     dense: {
       marginTop: 16,
@@ -25,6 +36,15 @@ const styles = theme => ({
       width: 200,
     },
   });
+
+
+  // Axios headers
+  const axiosConfig = {
+      headers: {
+          'Content-Type' : 'application/json',
+          'Email' : 'ms.jenny.ly@gmail.com'
+      }
+  };
 
 class Search extends React.Component {
 
@@ -47,13 +67,30 @@ class Search extends React.Component {
         });
       };
 
-     addSearchItem(){
+      // ms.jenny.ly@gmail.com
+      // Load event listener on search input on page load
+      componentDidMount(){
+          console.log("component will mount!\n");
+          // Add event listeners (search bar)
+          document.getElementById("searchInput").addEventListener("input", function(e){
+            console.log(this.value);
+            axios.get("https://jeffchoy.ca/comp4711/badgr-app/users", axiosConfig)
+                .then(function(response){
+                    console.log("Success! : " + response.data["firstName"] + " \n");
+                })
+                .catch(function(error){
+                    console.log("axios error!\n");
+                })
+          });
+      }
 
+     addSearchItem(){
+         // add search item
      }
 
 
      removeSearchItem(){
-
+        // remove search item
      }
 
 
@@ -62,18 +99,22 @@ class Search extends React.Component {
         const { classes } = this.props;
 
         return(
-            <div class="outerSearchContainer">
-                <div class="searchContainer">
+            <div className="outerSearchContainer">
+                <div className="searchContainer">
                     <TextField
-                        id="outlined-search"
+                        id="searchInput"
                         label="Search for users"
                         type="search"
                         className={classes.textField}
                         margin="normal"
                         variant="outlined"
                         primary="red"
-                        secondary="red"
-                        />
+                        secondary="red"/>
+
+                    <div className = "listContainer">
+                        <ListSearchResult
+                            />
+                    </div>
 
                 </div>
             </div>

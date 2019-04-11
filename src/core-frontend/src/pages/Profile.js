@@ -1,76 +1,198 @@
 import React, { Component } from 'react';
-import GoogleLogin from 'react-google-login';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import { withStyles } from '@material-ui/core/styles';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
 
-// Styling
-// import '../style/Profile.css';
+import Typography from '@material-ui/core/Typography';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+
+import "../style/Profile.css"
+
+// Axios
+import axios from 'axios';
+
+// Card
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Button from '@material-ui/core/Button';
+
+import Divider from '@material-ui/core/Divider';
+
+import testProfilePic from '../images/exampleProfilePic.jpg';
+
+// List of Search Results
+import ListSearchResult from '../Components/ListSearchResultComponent.js';
+
+// Badges Tile List
+
+import GridList from '@material-ui/core/GridList';
+import GridListTile from '@material-ui/core/GridListTile';
+import GridListTileBar from '@material-ui/core/GridListTileBar';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import IconButton from '@material-ui/core/IconButton';
+import InfoIcon from '@material-ui/icons/Info';
+
+const styles = theme => ({
+    card: {
+        maxWidth: "80%",
+        height: "100%",
+        borderRadius: "25px",
+        border: "0px",
+        marginLeft: "5%",
+        marginTop: "5%",
+        boxShadow: "0, 0, 0, 0",
+        padding: "20px"
+    },
+    media: {
+        height: "400px",
+        width: "400px",
+        marginLeft: "auto",
+        marginRight: "auto",
+        borderRadius: "50%",
+    },
+    dividerStyle: {
+        marginTop: "15px",
+        marginBottom: "10px",
+    },
+    root: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-around',
+        overflow: 'hidden',
+        backgroundColor: theme.palette.background.paper,
+    },
+    gridList: {
+        width: 500,
+        height: 450,
+    },
+    icon: {
+        color: 'rgba(255, 255, 255, 0.54)',
+    },
+
+});
+
+const theme = createMuiTheme({
+  palette: {
+    // primary: { main: purple[500] }, // Purple and green play nicely together.
+    // secondary: { main: '#11cb5f' }, // This is just green.A700 as hex.
+  },
+  typography: { useNextVariants: true },
+});
 
 
+  // Axios headers
+  const axiosConfig = {
+      headers: {
+          'Content-Type' : 'application/json',
+          'Email' : 'ms.jenny.ly@gmail.com'
+      }
+  };
 
 class Profile extends React.Component {
 
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
+    constructor(props) {
+        super(props);
+        this.state = {
+           loggedIn: true,
+           settingsDisplay: false,
+           list: [],
+        }
+
+        this.addSearchItem = this.addSearchItem.bind(this);
+        this.removeSearchItem = this.removeSearchItem.bind(this);
+     }
+
+
+     handleChange = name => event => {
+        this.setState({
+          [name]: event.target.value,
+        });
+      };
+
+      // ms.jenny.ly@gmail.com
+      // Load event listener on search input on page load
+      componentDidMount(){
+          console.log("component will mount!\n");
+          // Add event listeners (search bar)
+          // document.getElementById("searchInput").addEventListener("input", function(e){
+          //   console.log(this.value);
+          //   axios.get("https://jeffchoy.ca/comp4711/badgr-app/users", axiosConfig)
+          //       .then(function(response){
+          //           console.log("Success! : " + response.data["firstName"] + " \n");
+          //       })
+          //       .catch(function(error){
+          //           console.log("axios error!\n");
+          //       })
+          // });
+      }
+
+     addSearchItem(){
+         // add search item
+     }
+
+
+     removeSearchItem(){
+        // remove search item
+     }
+
+
+    render(){
+
+        const { classes } = this.props;
+
+        return(
+
+            <div className="outerSearchContainer">
+                <MuiThemeProvider theme={theme}>
+                    <div className="profileOuterContainer">
+                        <div className="profileContainer">
+                            <Card className={classes.card} >
+                              <CardActionArea>
+                                <CardMedia
+                                  className={classes.media}
+                                  image={testProfilePic}
+                                  title="Contemplative Reptile"
+                                />
+                                <CardContent>
+                                    <Typography variant="h1" gutterbottom>
+                                        Segal Au
+                                    </Typography>
+                                    <Divider className={classes.dividerStyle}/>
+                                    <Typography component="p">
+                                      Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
+                                      across all continents except Antarctica
+                                    </Typography>
+                                </CardContent>
+                              </CardActionArea>
+                              <CardActions>
+
+                              </CardActions>
+                            </Card>
+                        </div>
+                        <div className="badgesContainer">
+                            <div className={classes.root}>
+                              <GridList cellHeight={180} className={classes.gridList}>
+                                <GridListTile key="Subheader" cols={2} style={{ height: 'auto' }}>
+                                  <ListSubheader component="div">December</ListSubheader>
+                                </GridListTile>
+
+                              </GridList>
+                            </div>
+                        </div>
+                    </div>
+                </MuiThemeProvider>
+            </div>
+        );
+    }
+}
+
+Profile.propTypes = {
+    classes: PropTypes.object.isRequired,
   };
 
-  render() {
-    const { classes } = this.props;
-    const responseGoogle = (response) => {
-      console.log(response);
-    }
-
-    return (
-        <div className="App">
-        <div className="App_LeftPanel">
-          <div className="App_Profile">
-            <div className="Profile_Panel">
-                <img src="../images/man.png"/>
-                <h1 id="userName">Segal Au</h1>
-            </div>
-            <div className="Badges_Panel">
-              <div className="Badges_Title">
-                  <h1 id="badgeTitle">Badges Earned</h1>
-                  <button id="badgeSort">Past Week</button>
-              </div>
-              <hr/>
-              <div id="badgeCollection">
-                  <img className="badge" src="../images/001-medal.png"/>
-                  <img className="badge" src="../images/002-shield.png"/>
-                  <img className="badge" src="../images/003-star.png"/>
-                  <img className="badge" src="../images/004-bear.png"/>
-                  <img className="badge" src="../images/001-medal.png"/>
-                  <img className="badge" src="../images/002-shield.png"/>
-                  <img className="badge" src="../images/003-star.png"/>
-                  <img className="badge" src="../images/004-bear.png"/>
-                  <img className="badge" src="../images/001-medal.png"/>
-              </div>
-              <hr/>
-            </div>
-
-            <div id="controls_Panel">
-                  <div id="left-controls">
-                      <button>Settings</button>
-                      <button>Search</button>
-                  </div>
-                  <div id="right-controls">
-                      <button>Logout</button>
-                  </div>
-            </div>
-          </div>
-        </div>
-        <div className="App_RightPanel">
-          <div id="badgeBlock">
-              <div id="badgeTitle">
-                  <img className="badgeFull" src="../images/001-medal.png"/>
-                  <h1 id="badgeTitle">001 Medal</h1>
-              </div>
-              <hr/>
-              <p id="badgeDescription">Congratulations! You tried... at least once! Not the most prestigious of awards, but every epic journey must begin with the first step...</p>
-          </div>
-        </div>
-      </div>
-
-    );
-  }
-}
-// export default connect(mapStateToProps, mapDispatchToProps) (App);
-export default Profile;
+export default withStyles(styles)(Profile);
