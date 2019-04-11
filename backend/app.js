@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
+const axios = require('axios');
 /*
 CREATE TABLE Users (
     Email varchar(255) NOT NULL,
@@ -292,23 +293,86 @@ OR description LIKE '% %'
 //pass a single search term
 app.get('/comp4711/badgr-app/searchusers', jsonParser, function(req, res){
   // Bad request check
+  console.log("fmksld");
   if (req.header('Content-Type') != 'application/json') {
     res.status(400).send('Invalid header - Content-Type');
   }
-  if (!req.body.query) {
+  if (!req.header('query')) {
     res.status(400).send('Request missing required fields');
   }
-  con.query("Select * from users where lastname = ? OR firstname = ? OR description LIKE '%" + req.body.query + "%'", [req.body.query, req.body.query], function(err, result){
+  if (!req.header('externalapp')){
+    res.status(400).send('request missing required fields');
+  }
+  con.query("Select * from users where lastname = ? OR firstname = ? OR description LIKE '%" + req.header('query') + "%'", [req.header('query'), req.header('query')], function(err, result){
+    console.log("pls");
     if (err) res.status(500).send(err);
     if (result.length == 0) {
       res.status(404).send("no matching users found");
     } else {
-      let responseBody = {};
-      responseBody.searchResult = result;
-      res.status(200).send(responseBody);
+      if (req.header('score') > 0) {
+        //filters for information from the external app
+        //get our access key for the external app
+        con.query("Select token from Apps where appId = ?", req.header('externalapp'), function(err, tokenResult){
+          console.log("fsfddaaa");
+          if (err) res.status(500).send(err);
+          if (tokenResult.length == 0) {
+            res.status(404).send("no api key found for external app");
+          } else {
+            console.log("here");
+            console.log(tokenResult);
+            axios({
+              method: 'get',
+              url: 'https://whereisyou.herokuapp.com/scores.php',
+              headers: {
+                    'key': tokenResult[0].token,
+                    'date': '2019-04-10',
+                    'leaderboard': true
+                  }
+            })
+            .then(function(response){
+              //console.log(response.body);
+              //response.data = results from external
+              //result = result from core
+              //find entries that exist in both
+
+              let finalSearchRes = [];
+              console.log("response length: " + Object.values(response.data).length);
+              console.log("result length: " +result.length);
+              console.log("response.data is next line");
+              console.log(response.data);
+              console.log("blah");
+              for (let i = 0; i < Object.values(response.data).length; i++){
+                for (let j = 0; j < result.length; j++){
+                  console.log("response.data: " + Object.keys(response.data)[i] + " result: " + result[j].email);
+                  if (Object.keys(response.data)[i] == result[j].email){
+                    
+                    finalSearchRes.push(result[j].email);
+                    break;
+                  }
+                }
+              }
+
+              let responseBody = {};
+              console.log("response dtat 2: " + response.data);
+              responseBody.searchResult = finalSearchRes;
+              res.status(200).send(responseBody);
+            }).catch(function(err){
+              //res.status(500).send(err);
+              console.log("hekk")
+              console.log(tokenResult[0]);
+              //console.log(err);
+            })
+          }
+        })
+      }else {
+        let responseBody = {};
+        responseBody.searchResult = result;
+        res.status(200).send(responseBody);
+      }
     }
   })
 })
+
 
 /*
 Select count(*) 
