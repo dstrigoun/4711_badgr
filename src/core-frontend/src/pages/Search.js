@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
 
 import "../style/Search.css";
 
@@ -63,6 +64,7 @@ class Search extends React.Component {
            loggedIn: true,
            settingsDisplay: false,
            list: [],
+           test: "",
            redirectToSpecific: false,
            specificEmail: "",
            redirectToNew: false,
@@ -98,55 +100,68 @@ class Search extends React.Component {
           queueResults = [];
 
           // Add event listeners (search bar)
-          document.getElementById("searchInput").addEventListener("input", function(e){
+          document.getElementById("searchInput").addEventListener("keypress", (e) =>{
 
               let objSearch = document.getElementById("searchInput");
               console.log(objSearch.value);
 
+              var key = e.which || e.keyCode;
+              if(key == 13){
+                  axios({
+                      method: "get",
+                      url: "https://jeffchoy.ca/comp4711/badgr-app/searchusers",
+                      headers: {
+                          'Content-Type' : 'application/json',
+                          "query" : objSearch.value,
+                          "externalapp" : "whereisyou",
+                          "score" : 1,
+                          "currDate" : "2019-04-10",
+                      },
+                  })
+                  .then((res) => {
+                      console.log(res);
+                      res.data.searchResult.map((result) => {
+                          console.log(result);
+                          axios({
+                              method: "get",
+                              url: "https://jeffchoy.ca/comp4711/badgr-app/users",
+                              headers: {
+                                  "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
+                                  "email" : result,
+                              }
+                          })
+                          .then((res) => {
+                              console.log(res.data);
+
+                              // Push to result, then queueResults
+
+                              if (res.data.lastName){
+                                  fullName = res.data.firstName + " " + res.data.lastName;
+                              } else {
+                                  fullName = res.data.firstName;
+                              }
+
+                              result = [res.data.picture, fullName, res.data.email, res.data.description];
+                              queueResults.push([result ]);
+                              console.log(queueResults);
+                              this.setState({
+                                  test: queueResults,
+                                  list: queueResults
+                              });
+
+                              console.log(this.state.list);
 
 
-            //     axios({
-            //         method: "get",
-            //         url: "https://jeffchoy.ca/comp4711/badgr-app/searchusers",
-            //         headers: {
-            //             'Content-Type' : 'application/json',
-            //             "query" : objSearch.value,
-            //             "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
-            //             "externalapp" : "whereisyou",
-            //             "score" : 0,
-            //             "curDate" : "2019-04-11",
-            //         },
-            //     }).then((res) => {
-            //         console.log(res);
-            //         res.searchResult.map((result) => {
-            //             axios({
-            //                 method: "get",
-            //                 url: "https://jeffchoy.ca/comp4711/badgr-app/users",
-            //                 headers: {
-            //                     "Authorization": "ca19f39c-8396-4534-8048-d7a406d9357a",
-            //                     "email" : result,
-            //                 }
-            //             }).then((res) => {
-            //                 console.log(res);
-            //
-            //                 // Push to result, then queueResults
-            //
-            //                 if (res.lastName){
-            //                     fullName = res.firstName + " " + res.lastName;
-            //                 } else {
-            //                     fullName = res.firstName;
-            //                 }
-            //
-            //                 result = [res.picture, fullName, res.email];
-            //                 queueResults.push([result]);
-            //
-            //             });
-            //         });
-            //
-            //         this.setState({
-            //             list: queueResults,
-            //         });
-            // });
+
+
+                          });
+
+
+                      });
+
+
+                  });
+              }
         });     // document get element by id function
 
 
@@ -185,12 +200,14 @@ class Search extends React.Component {
          console.log("Set redirect from Profile to Settings!\n");
      }
 
-     redirectToSpecificFunc(email){
+     redirectToSpecificFunc = (email) => {
          this.setState({
              redirectToSpecific: true,
              specificEmail: email,
          });
          console.log("Set redirect from Profile to Profile!\n");
+         console.log(email);
+         console.log(this.state.specificEmail);
      }
 
 
@@ -220,9 +237,9 @@ class Search extends React.Component {
             });
             return(
                 <Redirect to={{
-                    pathname: this.state.destUrl,
+                    pathname: profilePath,
                     state: {
-                        email: emailSearch,
+                        email: this.state.specificEmail,
                     }
                 }}/>
             )
@@ -253,7 +270,7 @@ class Search extends React.Component {
                             <div className = "listContainer">
                                 <ListSearchResult
                                     listResults = {this.state.list}
-                                    redirectToSpecificFunc = {this.redirectToSpecific}/>
+                                    redirectToSpecificFunc = {this.redirectToSpecificFunc}/>
                             </div>
 
                         </div>

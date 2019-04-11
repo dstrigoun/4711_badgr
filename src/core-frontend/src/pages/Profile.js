@@ -258,17 +258,25 @@ class Profile extends React.Component {
                     "key" : "bbc8e0e1-2dd4-4bc6-9f7d-1a0b3c5a3668"
                 }
             }).then((res) => {
-                res.records.map((record) => {
-                    listRecordsTotal.push(record);
+                console.log("HELLO SECOND AXIOS!\n");
+                console.log(res);
+                res.data.records.map((record) => {
+                    if(record.userId == emailProfile){
+                        listRecordsTotal.push(record);
+                    }
+
                 });
                 this.setState({
                     list: listRecordsTotal,
                 })
+
+                console.log(this.state.list);
             });
         }
 
         const { classes } = this.props;
 
+        console.log(this.state.list);
         console.log("rendering profile now!\n");
 
         if(this.state.redirectToNew){
@@ -326,7 +334,7 @@ class Profile extends React.Component {
                                               <Avatar>
                                                 <ImageIcon />
                                               </Avatar>
-                                              <ListItemText primary={badge[0]} secondary ={badge[1]} />
+                                              <ListItemText primary={badge.badgeDesc} secondary ={badge.date} />
                                             </ListItem>
                                         ))}
                                   </List>

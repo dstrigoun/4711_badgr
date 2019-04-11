@@ -59,14 +59,17 @@ library.add(
 
 const styles = theme => ({
   root: {
-    width: '100%',
-    maxWidth: 360,
+    width: '600px',
+    height: "400px",
     backgroundColor: theme.palette.background.paper
   },
   inline: {
     display: 'inline-block',
   },
   listItem: {
+    width: "400px",
+    height: "200px",
+    color: "black",
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -77,57 +80,61 @@ const styles = theme => ({
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary,
   },
+  expansion: {
+      width: "400px",
+      height: "150px",
+  }
 });
 
 
 class ListSearchResult extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            searchResults: []   //names
-        }
+        this.state = {};
+
+        this.getList = this.getList.bind(this);
      }
 
-     componentWillMount(){
+     getList(){
          console.log(this.props.listResults);
-         this.setState({
-             searchResults: this.props.listResults,
-         });
+         return(this.props.listResults);
      }
 
 
      render(){
+
         const { classes } = this.props;
-        const resultsList = this.state.searchResults;
         const { expanded } = this.state;
+
+        const listOfResults = this.getList();
+
+        console.log("result list!\n");
+        console.log(listOfResults);
 
         return (
             <div className = "ListOuterContainer">
               <List className = {classes.root}>
-                {resultsList.map((result) => (
+                {listOfResults.map((result) => (
                     <ListItem className={classes.listItem}alignItems = "flex-start" button>
 
-                        <ExpansionPanel  >
+                        <ExpansionPanel  className={classes.expansion}>
                           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
 
                               <ListItemAvatar>
                                 <Avatar alt="Doofus Goofus" src={result[0]}/>
                               </ListItemAvatar>
                               <ListItemText
-                                primary= {
-                                  <Typography variant="overline" component="span" color="textPrimary" className={classes.inline}>
-                                      {result[1]}
-                                  </Typography>
-                                }/>
+                                primary= {result[1]}/>
                           </ExpansionPanelSummary>
-
                           <Divider/>
-                          <ExpansionPanelActions>
-                              <Button variant="outlined" color="primary" className={classes.button}
-                                onClick={() => this.props.redirectToSpecific(result[2])}>
-                                Visit Profile
-                              </Button>
-                          </ExpansionPanelActions>
+                          <ExpansionPanelDetails>
+                            {result[2]}
+                            <Typography variant="body2">
+                              {result[3]}
+                            </Typography>
+                          </ExpansionPanelDetails>
+
+
                         </ExpansionPanel>
                     </ListItem>
                 ))}
