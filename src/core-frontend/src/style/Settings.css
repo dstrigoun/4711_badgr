@@ -1,0 +1,221 @@
+body {
+  box-sizing: border-box;
+}
+
+.App {
+  color: white;
+  padding: 1em;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  height: 150vh;
+}
+
+.settingsSub {
+  display: inline-block;
+}
+
+
+#Settings {
+  text-align: left;
+}
+
+#badgeDefault {}
+
+#profileTheme {}
+
+#userInput {
+  width: 100%;
+}
+
+#back {
+	color: lightgray;
+	margin-left: 1rem;
+	margin-right: 2rem;
+}
+
+#profile-details {}
+
+.card {
+	background: #fff;
+	border-radius: 2px;
+	height:auto;
+	margin: 1rem;
+	color: black;
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+	margin-left: 5rem;
+}
+
+#title {
+  border-bottom: 1px #66DAC7 solid;
+  text-align: left;
+}
+
+.avatar {
+  border :3px #66DAC7 solid;
+  margin: auto;
+  height: 200px;
+  weight: 200px;
+  display: block;
+}
+
+.buttonLabel {
+  padding: .80em 3.5em;
+  background-color: #66DAC7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-transform: uppercase;
+  font-size: .80rem;
+  width: 60px;
+  margin: 1em auto;
+  cursor:pointer;
+  text-align: center;
+}
+
+.subtitle {
+  border-bottom: 1px #66DAC7 solid;
+  padding-bottom: 15px;
+}
+
+.inputcontainer {
+  position: relative;
+  width: 80%;
+  height: 15%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 2em;
+}
+
+.imgContainer {
+  text-align: center;
+  position: relative;
+  width: 80%;
+  height: 15%;
+  /* margin-left: auto;
+  margin-right: auto;
+  margin-top: 2em; */
+  margin: 2em auto;
+}
+
+.wysiwygContainer {
+  position: relative;
+  width: 80%;
+  height: 25%;
+  /* margin-left: auto;
+  margin-right: auto;
+  margin-top: 2em; */
+  margin: 2em auto;
+}
+
+.inputLabel {
+  position: absolute;
+  top: -15px;
+  left: 0px;
+  width: 30%;
+  height: 8%;
+  padding: .80em 3.5em;
+  background-color: #66DAC7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-transform: uppercase;
+  font-size: .80rem;
+}
+
+.inputLabelWYSIWYG {
+  position: absolute;
+  top: -18px;
+  left: 0px;
+  width: 30%;
+  height: 8%;
+  padding: .80em 3.5em;
+  background-color: #66DAC7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-transform: uppercase;
+  font-size: .80rem;
+}
+
+.inputField {
+  width: 85%;
+  height: 85%;
+  padding: 1em;
+  border :3px #66DAC7 solid;
+  background-color: transparent;
+  color: black;
+  font-weight:bold;
+}
+
+.primaryKey {
+  color: darkgray;
+}
+.wysiwyg {
+  color: black;
+  width: 88.5%;
+  background-color: white;
+  border :3px #66DAC7 solid;
+}
+
+.grid-container {
+  width: 100%;
+}
+
+
+
+/*-- our cleafix hack -- */
+
+.row:before, .row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+[class*='col-'] {
+  float: left;
+  min-height: 1px;
+  width: 16.66%;
+  /*-- our gutter -- */
+  padding: 12px;
+}
+
+.col-1 {
+  width: 16.66%;
+}
+
+.col-2 {
+  width: 33.33%;
+}
+
+.col-3 {
+  width: 50%;
+}
+
+.col-4 {
+  width: 66.66%;
+}
+
+.col-5 {
+  width: 83.33%;
+}
+
+.col-6 {
+  width: 100%;
+}
+
+.outline, .outline * {
+  outline: 1px solid #F6A1A1;
+}
+
+
+/*-- some extra column content styling --*/
+
+[class*='col-']>p {
+  background-color: #FFC2C2;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+  color: white;
+}
